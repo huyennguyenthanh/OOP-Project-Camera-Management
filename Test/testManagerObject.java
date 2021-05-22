@@ -1,12 +1,12 @@
 package Test;
 
-import Core.Obj;
-import Core.Point;
-import Core.Room;
+import model.Obj;
+import model.Point;
+import model.Room;
 
 public class testManagerObject {
     public static void main(String[]argv){
-        Room r1 = new Room(50,100,100);
+
     }
     public static void testCase1(Room r){
         Point[] points = new Point[8];

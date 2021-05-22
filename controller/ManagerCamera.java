@@ -1,4 +1,6 @@
-package Core;
+package controller;
+
+import model.Camera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ public class ManagerCamera {
 
     public Camera searchCamera(Camera camera){
         return this.cameras.stream()
-                .filter(o -> o.equals(camera))
+                .filter(o -> o.getPoint().equals(camera.getPoint()) )
                 .findFirst().orElse(null);
     }
     public boolean deleteCamera(Camera camera) {
@@ -22,5 +24,11 @@ public class ManagerCamera {
         }
         this.cameras.remove(cam);
         return true;
+    }
+    public boolean checkExistCamera(Camera camera){
+        if(searchCamera(camera) != null)
+            return true;
+        else
+            return false;
     }
 }

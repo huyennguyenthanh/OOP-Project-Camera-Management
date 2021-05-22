@@ -1,4 +1,4 @@
-package Core;
+package model;
 
 import Exception.ArrayIndexException;
 public class Obj  {
@@ -39,7 +39,9 @@ public class Obj  {
         }catch (ArrayIndexOutOfBoundsException er){
         }
     }
-
+    public float getHeight(){
+        return points[4].getZ() - points[0].getZ();
+    }
     public boolean equals (Obj object){
         if(object != null){
             Point[] pointsObject = object.getPoints();
@@ -68,27 +70,26 @@ public class Obj  {
             if(p1.getX() != p2.getX() || p1.getY() != p2.getY())
                 return false;
         }
+
         // kiem tra ABCD hoac A1B1C1 la hinh chu nhat
         // Vecto AB(x,y) ; DC(x1,y1) ; AD(x2,y2)
-        int x = points[1].getX() - points[0].getX();
-        int y = points[1].getY() - points[0].getY();
-        int x1 = points[2].getX() - points[3].getX();
-        int y1 = points[2].getY() - points[3].getY();
-        int x2 = points[3].getX() - points[0].getX();
-        int y2 = points[3].getY() - points[0].getY();
+        Vector2D AB = new Vector2D(points[1].getX() - points[0].getX(),points[1].getY() - points[0].getY());
+        Vector2D DC = new Vector2D(points[2].getX() - points[3].getX(),points[2].getY() - points[3].getY());
+        Vector2D AD = new Vector2D(points[3].getX() - points[0].getX(),points[3].getY() - points[0].getY());
+
         // kiem tra AB vuong goc AD : x*x2 + y*y2 = 0 ;
-        if(x*x2 + y*y2 !=0)
+        if(AB.checkPerpendicularVectors(AD))
             return false;
         // kiem tra AB // DC
-        if(x != x1 || y != y1)
+        if(AB.checkEqualVectors(DC))
             return false;
         else
             return true;
     }
     public boolean checkInRoom(Room room){
-        int width = room.getWidth();
-        int length = room.getLength();
-        int height = room.getHeight();
+        float width = room.getWidth();
+        float length = room.getLength();
+        float height = room.getHeight();
         for(int i = 0 ; i <= 7 ; i++){
             if(this.points[i].getX() > width || this.points[i].getY() > length)
                 return false;
