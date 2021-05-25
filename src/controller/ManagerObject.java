@@ -42,8 +42,8 @@ public class ManagerObject {
 	
     public void addObject (Obj object,Room room) throws InvalidObject {
         if(checkInRoom(room,object)){
-            if(checkRectangularBox(object)){
-                if(checkOverlapObject(object))
+            if(!checkRectangularBox(object)){
+                if(!checkOverlapObject(object))
                     throw new InvalidObject("Invalid Object");
                 else{
                     this.objects.add(object);

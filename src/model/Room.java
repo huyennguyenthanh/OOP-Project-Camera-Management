@@ -10,7 +10,7 @@ public class Room {
     
 
     public Room(Point[] points) throws CreateRoomException{
-        if(checkListPoints(points)){
+        if(!checkListPoints(points)){
             this.points = points;
         }
         else{

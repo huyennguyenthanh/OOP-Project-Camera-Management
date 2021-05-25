@@ -95,9 +95,9 @@ public class ManagerCamera {
     	for(int i=0 ; i< num_cams ; i++) {
             str += "Camera " + (i+1) + ":\n"
                 + "("
-                + this.getCameras().get(i).getPoint().getX() + ", "
-                + this.getCameras().get(i).getPoint().getZ() + ", "
-                + this.getCameras().get(i).getPoint().getX() + ")\n"
+                + this.getCameras().get(i).getPoint().getX()/100 + ", "
+                + this.getCameras().get(i).getPoint().getZ()/100 + ", "
+                + this.getCameras().get(i).getPoint().getX()/100 + ")\n"
                 + "Height angle: " + this.getCameras().get(i).getHeight_angle() + "\n"
                 + "Width angle: " + this.getCameras().get(i).getWidth_angle() + "\n\n";
         }
