@@ -1,23 +1,20 @@
 package model;
-import Exception.*;
+
+import model.space.Point;
+import model.space.Vector2D;
+import exception.*;
 
 public class Room {
     private Point [] points = new Point[8];
 
-    public Room(Point[] points) throws CreateRoomException {
-        this.points = points;
-        if(!checkListPoints())
+
+    public Room(Point[] points) throws CreateRoomException{
+        if(checkListPoints(points)){
+            this.points = points;
+        }
+        else{
             throw new CreateRoomException("Phòng không đúng định dạng");
-    }
-    public Room(Point A, Point B, Point C, Point D, Point A1, Point B1, Point C1, Point D1){
-        this.points[0] = A;
-        this.points[1] = B;
-        this.points[2] = C;
-        this.points[3] = D;
-        this.points[4] = A1;
-        this.points[5] = B1;
-        this.points[6] = C1;
-        this.points[7] = D1;
+        }
     }
     public Room(Point B, Point C, Point D, Point A1, Point B1, Point C1, Point D1){
         this.points[0] = new Point(0,0,0);
@@ -45,16 +42,19 @@ public class Room {
     }
 
     public float getHeight(){
-        return this.points[6].getY();
+        return this.points[6].getZ();
+    }
+    public float V () {
+        return this.getHeight() * this.getLength() * this.getWidth();
     }
 
-    public boolean checkListPoints(){
+    private boolean checkListPoints(Point [] points){
         // check điểm A trùng gốc tọa độ
-        if(this.points[0].getX() != 0 || this.points[0].getZ() !=0 || this.points[0].getZ() !=0)
+        if(points[0].getX() != 0 || points[0].getZ() !=0 || points[0].getZ() !=0)
             return false;
         // check các giá trị dương
         for (int i = 0 ; i <=7 ; i++){
-            if(this.points[i].getX() <0 || this.points[i].getY() <0 || this.points[i].getZ() <0)
+            if(points[i].getX() <0 || points[i].getY() <0 || points[i].getZ() <0)
                 return false;
         }
         // check hình hộp chữ nhật
@@ -88,4 +88,23 @@ public class Room {
         else
             return true;
     }
+
+    public String printInfo()
+    {
+        String str = null;
+        System.out.println("ROOM: ");
+        str += "ROOM: \n";
+        for(int i = 0; i < 8 ; i++) {
+            str += "(" + this.getPoints()[i].getX() + ", "
+                    + this.getPoints()[i].getY() + ", "
+                    + this.getPoints()[i].getZ() + ")\n";
+        }
+//    	for(int i=0 ; i<8 ; i++) {
+//            System.out.printf("(%.2f %.2f %.2f) %n",this.getPoints()[i].getX(),
+//                                                    this.getPoints()[i].getY(),
+//                                                    this.getPoints()[i].getZ());
+//        }
+        return str;
+    }
+
 }

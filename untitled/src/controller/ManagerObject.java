@@ -1,29 +1,36 @@
 package controller;
 
+import exception.InvalidObject;
+import model.Obj;
+import model.Room;
+import model.space.Point;
+import model.space.Vector2D;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Exception.*;
-import model.Obj;
-import model.Point;
-import model.Room;
-import model.Vector2D;
-
 public class ManagerObject {
     private List<Obj> objects;
+    private int num_objs = 0;
     public ManagerObject(){
         this.objects = new ArrayList<>();
     }
-    public void addObject (Obj object) throws InvalidObject{
-        if(checkRectangularBox(object)){
-            if(checkOverlapObject(object))
-                throw new InvalidObject("Invalid Object");
-            else{
-                this.objects.add(object);
-            }
-        }else
-            throw new InvalidObject("Object is not Rectangular Box");
+    public void addObject (Obj object,Room room) throws InvalidObject {
+        if(checkInRoom(room,object)){
+            if(checkRectangularBox(object)){
+                if(checkOverlapObject(object))
+                    throw new InvalidObject("Invalid Object");
+                else{
+                    this.objects.add(object);
+                    this.num_objs += 1;
+                }
+            }else
+                throw new InvalidObject("Object is not Rectangular Box");
+        }
+        else{
+            throw new InvalidObject("Object is in Room");
+        }
     }
     public Obj searchObject(Obj object){
         Obj obj = this.objects.stream()
@@ -162,7 +169,7 @@ public class ManagerObject {
     private boolean is_2line_intersect(Point A, Point B, Point C, Point D) {
         return (ccw(A,C,D) != ccw(B,C,D) && ccw(A, B, C) != ccw(A,B,D));
     }
-    private boolean checkInRoom(Room room,Obj object){
+    private boolean checkInRoom(Room room, Obj object){
         float width = room.getWidth();
         float length = room.getLength();
         float height = room.getHeight();
@@ -199,8 +206,8 @@ public class ManagerObject {
         }
         // kiem tra toa do duong
         for(int i = 0 ; i <=3 ; i ++ ){
-           if(points[i].getX() <0 || points[i].getY() <0 || points[i].getZ() <0)
-               return false;
+            if(points[i].getX() <0 || points[i].getY() <0 || points[i].getZ() <0)
+                return false;
         }
 
         // kiem tra ABCD hoac A1B1C1 la hinh chu nhat
@@ -223,4 +230,39 @@ public class ManagerObject {
             return true;
     }
 
+
+
+    public String printInfo()
+    {
+//    	for(int i=0 ; i< this.num_objs; i++) {
+//            System.out.println("Obj " + (i+1));
+//            for(int j=0 ; j<8; j++) {
+//                System.out.printf("%.0f cm %.0f cm %.0f cm %n", this.getObjects().get(i).getPoints()[j].getX(),
+//                                                        this.getObjects().get(i).getPoints()[j].getY(),
+//                                                        this.getObjects().get(i).getPoints()[j].getZ());
+//            }
+//        }
+        String str = null;
+        for(int i = 0; i < num_objs ; i++) {
+            str += "Obj " + (i+1) + ":\n";
+            for(int j=0; j<8 ; j++){
+                str += "(" + this.getObjects().get(i).getPoints()[j].getX() + ", "
+                        + this.getObjects().get(i).getPoints()[j].getY() + ", "
+                        + this.getObjects().get(i).getPoints()[j].getZ() + ")\n";
+            }
+        }
+        return str;
+    }
+    public List<Obj> getObjects() {
+        return objects;
+    }
+    public void setObjects(List<Obj> objects) {
+        this.objects = objects;
+    }
+    public int getNum_objs() {
+        return num_objs;
+    }
+    public void setNum_objs(int num_objs) {
+        this.num_objs = num_objs;
+    }
 }

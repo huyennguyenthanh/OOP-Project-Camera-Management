@@ -1,4 +1,5 @@
 package model;
+import model.space.*;
 
 public class Obj  {
     private Point[] points = new Point[8];

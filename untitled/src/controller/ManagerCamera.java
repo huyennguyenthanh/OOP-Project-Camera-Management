@@ -1,19 +1,34 @@
 package controller;
 
 import model.Camera;
-import model.Point;
 import model.Room;
+import model.space.*;
+import exception.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import Exception.*;
 
 public class ManagerCamera {
     private List<Camera> cameras;
+    private int num_cams;
+
     public ManagerCamera(){
         this.cameras = new ArrayList<>();
     }
 
+    public void addCamera(Camera camera, Room room) throws InvalidCamera {
+        if(checkExistCamera(camera)){
+            throw new InvalidCamera("Camera already exists !");
+        }
+        if(!checkAngle(camera)){
+            throw new InvalidCamera("Invalid angle !");
+        }
+        if(!checkOnWall(room,camera) && !checkOnCeiling(room,camera)){
+            throw new InvalidCamera("Camera is not on the wall or the ceiling !");
+        }
+        this.cameras.add(camera);
+        this.num_cams += 1;
+    }
 
     public Camera searchCamera(Camera camera){
         return this.cameras.stream()
@@ -28,24 +43,14 @@ public class ManagerCamera {
         this.cameras.remove(cam);
         return true;
     }
-    public void addCamera(Camera camera,Room room) throws InvalidCamera {
-        if(checkExistCamera(camera)){
-            throw new InvalidCamera("Camera already exists !");
-        }
-        if(!checkAngle(camera)){
-            throw new InvalidCamera("Invalid angle !");
-        }
-        if(!checkOnWall(room,camera) && !checkOnCeiling(room,camera)){
-            throw new InvalidCamera("Camera is not on the wall or the ceiling !");
-        }
-        cameras.add(camera);
-    }
-    private boolean checkExistCamera(Camera camera){
+    public boolean checkExistCamera(Camera camera){
         if(searchCamera(camera) != null)
             return true;
         else
             return false;
     }
+
+
     private boolean checkOnWall(Room room,Camera camera){
         Point point = camera.getPoint();
         if(point.getZ() == 0 )
@@ -79,5 +84,44 @@ public class ManagerCamera {
             return true;
         else
             return false;
+    }
+
+    public String printInfo() {
+        String str = null;
+//    	for(int i=0 ; i < this.num_cams ; i++) {
+//            System.out.println("Camera " + (i+1));
+//
+//                System.out.printf("%.0f cm %.0f cm  %.0f cm %n", this.getCameras().get(i).getPoint().getX(),
+//                                                    this.getCameras().get(i).getPoint().getY(),
+//                                                    this.getCameras().get(i).getPoint().getZ());
+//
+//        }
+        str += "Number of cameras: " + num_cams + "cam \n";
+        for(int i=0 ; i< num_cams ; i++) {
+            str += "Camera " + (i+1) + ":\n"
+                    + "("
+                    + this.getCameras().get(i).getPoint().getX() + ", "
+                    + this.getCameras().get(i).getPoint().getZ() + ", "
+                    + this.getCameras().get(i).getPoint().getX() + ")\n"
+                    + "Height angle: " + this.getCameras().get(i).getHeight_angle() + "\n"
+                    + "Width angle: " + this.getCameras().get(i).getWidth_angle() + "\n\n";
+        }
+        return str;
+    }
+
+    public List<Camera> getCameras() {
+        return cameras;
+    }
+
+    public void setCameras(List<Camera> cameras) {
+        this.cameras = cameras;
+    }
+
+    public int getNum_cams() {
+        return num_cams;
+    }
+
+    public void setNum_cams(int num_cams) {
+        this.num_cams = num_cams;
     }
 }

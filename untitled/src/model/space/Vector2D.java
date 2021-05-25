@@ -1,4 +1,4 @@
-package model;
+package model.space;
 
 public class Vector2D {
     private float x,y;
