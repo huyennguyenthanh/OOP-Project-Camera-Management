@@ -68,9 +68,12 @@ public class checkInput {
 					String data = null;
 					Point point = new Point(x,y,z);
 					
+					data = "abcbccb";
+					
 					boolean check1 = roomModel.is_point_in_cam(point);
 					boolean check2 = roomModel.is_point_in_obj(point);
 					boolean check3 = roomModel.is_overcast_by_obj(point);
+					
 					
 					if (check1)
 					{

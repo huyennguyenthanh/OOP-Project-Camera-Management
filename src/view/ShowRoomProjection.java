@@ -25,7 +25,7 @@ public class ShowRoomProjection {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				//goi ham show hinh chieu
-				new camera();
+				new projection();
 			}
 		});
 		frame.add(b1);
@@ -95,7 +95,7 @@ public class ShowRoomProjection {
 //		});
 //		frame.add(b6);
 		
-		JButton b7 = new JButton("Diện tích vùng nhìn thấy");
+		JButton b7 = new JButton("Phần trăm vùng nhìn thấy");
 		b7.setSize(200, 40);
 		b7.setLocation(125,280);
 		b7.setFocusPainted(false);
@@ -106,7 +106,12 @@ public class ShowRoomProjection {
 				// in phan tram nhìn thấy
 				String str = null;
 				
+				float V_see = roomModel.visible_area();
+				float V = roomModel.room.get_V();
 				
+				str = "Thể tích căn phòng: " + V/1000000 + " m^3\n"
+						+ "Thể tích vùng nhìn thấy: " + V_see/10000000 + " m^3\n"
+								+ "Phần trăm: " + V_see/V + "%\n";			
 
 				JOptionPane.showMessageDialog(null, str);
 			}

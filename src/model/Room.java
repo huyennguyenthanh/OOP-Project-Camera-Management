@@ -39,7 +39,7 @@ public class Room {
     public float getHeight(){
         return this.points[6].getZ();
     }
-    public float V () {
+    public float get_V () {
     	return this.getHeight() * this.getLength() * this.getWidth();
     }
 
@@ -86,13 +86,13 @@ public class Room {
     
     public String printInfo()
     {
-    	String str = null;
+    	String str = "";
     	System.out.println("ROOM: ");
-    	str += "ROOM: \n";
+    	str += "ROOM (m): \n";
         for(int i = 0; i < 8 ; i++) {
-            str += "(" + this.getPoints()[i].getX() + ", "
-                        + this.getPoints()[i].getY() + ", "
-                        + this.getPoints()[i].getZ() + ")\n";
+            str += "(" + this.getPoints()[i].getX()/100 + " , "
+                        + this.getPoints()[i].getY()/100 + ", "
+                        + this.getPoints()[i].getZ()/100 + ") \n";
         }
 //    	for(int i=0 ; i<8 ; i++) {
 //            System.out.printf("(%.2f %.2f %.2f) %n",this.getPoints()[i].getX(), 

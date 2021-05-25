@@ -140,13 +140,13 @@ public class ManagerObject {
 //                                                        this.getObjects().get(i).getPoints()[j].getZ());
 //            }
 //        }
-    	String str = null;
+    	String str = "";
         for(int i = 0; i < num_objs ; i++) {
-            str += "Obj " + (i+1) + ":\n";
+            str += "Object " + (i+1) + ":\n";
             for(int j=0; j<8 ; j++){
-                str += "(" + this.getObjects().get(i).getPoints()[j].getX() + ", "
-                        + this.getObjects().get(i).getPoints()[j].getY() + ", "
-                        + this.getObjects().get(i).getPoints()[j].getZ() + ")\n";
+                str += "(" + this.getObjects().get(i).getPoints()[j].getX()/100 + ", "
+                        + this.getObjects().get(i).getPoints()[j].getY()/100 + ", "
+                        + this.getObjects().get(i).getPoints()[j].getZ()/100 + ")\n";
             }
         }
         return str;
