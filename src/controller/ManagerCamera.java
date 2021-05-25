@@ -6,8 +6,6 @@ import model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-import Exception.ExistedObjectException;
-
 public class ManagerCamera {
     private List<Camera> cameras;
     private int num_cams;
@@ -65,6 +63,7 @@ public class ManagerCamera {
 //                                                    this.getCameras().get(i).getPoint().getZ());
 //            
 //        }
+    	str += "Number of cameras: " + num_cams + "cam \n";
     	for(int i=0 ; i< num_cams ; i++) {
             str += "Camera " + (i+1) + ":\n"
                 + "("

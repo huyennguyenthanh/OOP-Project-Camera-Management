@@ -1,15 +1,18 @@
-package menu;
+package view;
 
 import javax.swing.*;
-import java.awt.*;
+
+import controller.RoomModel;
+import model.space.Point;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class checkInput {
-	public checkInput() {
+	public checkInput(RoomModel roomModel) {
 		JLabel status = new JLabel("");
 		
 		JFrame frame = new JFrame("Input pointer");
-		frame.setSize(500, 400);
+		frame.setSize(500, 500);
 		frame.setLayout(null);
 		
 		JLabel l = new JLabel("Nhap diem ban muon xet: ");
@@ -17,7 +20,7 @@ public class checkInput {
 		l.setLocation(50, 40);
 		frame.add(l);
 		
-		JLabel x = new JLabel("toa do x: ");
+		JLabel x = new JLabel("Toa do x (m): ");
 		x.setSize(100, 40);
 		x.setLocation(50, 100);
 		frame.add(x);
@@ -27,7 +30,7 @@ public class checkInput {
 		xText.setLocation(200, 100);
 		frame.add(xText);
 		
-		JLabel y = new JLabel("toa do y: ");
+		JLabel y = new JLabel("Toa do y (m): ");
 		y.setSize(100, 40);
 		y.setLocation(50, 160);
 		frame.add(y);
@@ -37,7 +40,7 @@ public class checkInput {
 		yText.setLocation(200, 160);
 		frame.add(yText);
 		
-		JLabel z = new JLabel("toa do z: ");
+		JLabel z = new JLabel("Toa do z (m): ");
 		z.setSize(100, 40);
 		z.setLocation(50, 220);
 		frame.add(z);
@@ -54,21 +57,46 @@ public class checkInput {
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				frame.setVisible(false);
-				int x, y, z;
+				float x, y, z;
+				//frame.setVisible(false);
 				if(!xText.getText().equals("") && !yText.getText().equals("") && !zText.getText().equals("")) {
-					x=Integer.parseInt(xText.getText());
-					y=Integer.parseInt(yText.getText());
-					z=Integer.parseInt(zText.getText());
-//					System.out.println(x+" - "+y+" - "+z;
-					String data = x+" - "+y+" - "+z + "co thuoc v";
-					status.setText(data);
-					  //String str = "điểm thuộc v";
-					 // JOptionPane.showMessageDialog(null, str);
+					x=Float.parseFloat(xText.getText());
+					y=Float.parseFloat(yText.getText());
+					z=Float.parseFloat(zText.getText());
 
-					//xu ly thay hay ko -> data
+					
+					String data = null;
+					Point point = new Point(x,y,z);
+					
+					boolean check1 = roomModel.is_point_in_cam(point);
+					boolean check2 = roomModel.is_point_in_obj(point);
+					boolean check3 = roomModel.is_overcast_by_obj(point);
+					
+					if (check1)
+					{
+						data = "Điểm nằm trong object. Không thể thấy điểm.\n";
+					}
+					else if (check3)
+					{
+						data = "Điểm không nằm trong object \nĐiểm bị che khuất bởi object khác\n"
+								+ "Không thể thấy điểm.\n";
+					}
+					else if (check2)
+					{
+						data = "Điểm không nằm trong object\n"
+								+ "Không bị che khuất bởi vật khác\n"
+								+ "Nằm trong vùng nhìn thấy của cam.\n";
+					}
+					else {
+						data = "Điểm không nằm trong object\n"
+								+ "Không bị che khuất bởi vật khác\n"
+								+ "Không trong vùng nhìn thấy của bất kì camera nào.\n";
+					}
+						
+					status.setText(data);
+
 				}else {
-					String data = "khong duoc de trong";
+					String data = "Please input before!";
 					status.setText(data);
 				}
 			}
@@ -81,8 +109,5 @@ public class checkInput {
 		
 		frame.setVisible(true);
 	}
-	
-	public static void main(String[] argv) {
-		new checkInput();
-	}
+
 }

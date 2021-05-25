@@ -95,7 +95,7 @@ public class RoomView{
 		inputButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {	
-				new checkInput();
+				new checkInput(roomModel);
 			}
 		});
 		frame.add(inputButton);
@@ -106,7 +106,7 @@ public class RoomView{
 		viewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new showView();
+				new ShowRoomProjection(roomModel);
 			}
 		});
 		frame.add(viewButton);

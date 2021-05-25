@@ -39,6 +39,9 @@ public class Room {
     public float getHeight(){
         return this.points[6].getZ();
     }
+    public float V () {
+    	return this.getHeight() * this.getLength() * this.getWidth();
+    }
 
     public boolean checkListPoints(){
         // check điểm A trùng gốc tọa độ

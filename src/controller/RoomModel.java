@@ -315,11 +315,12 @@ public class RoomModel {
     
     
     // tính toán vùng nhìn thấy
-    public void visible_area() {
+    public int visible_area() {
     	int width = Math.round(this.room.getWidth());
     	int length = Math.round(this.room.getLength());
     	int height = Math.round(this.room.getHeight());
     	
+    	int V = 0;
     	for (int i = 0; i < width; i ++)
     	{
     		for (int j = 0; j < length; j++)
@@ -330,6 +331,8 @@ public class RoomModel {
     			}
     		}
     	}
+    	
+    	return V;
     	
     	
     	

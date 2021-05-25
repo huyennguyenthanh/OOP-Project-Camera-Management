@@ -3,13 +3,9 @@ package view;
 
 // Tạo class Point có thuộc tính x, y, z
 
-import model.*;
 import controller.*;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Scanner;
+
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +14,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class ShowRoom extends JFrame{
-    JButton btnRoom;
+
+	private static final long serialVersionUID = 1L;
+	JButton btnRoom;
     JButton btnObj;
     JButton btnCamera;
   
@@ -53,16 +51,8 @@ public class ShowRoom extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-                String str = "";
-                for(int i=0 ; i<num_of_camera; i++) {
-                    str += "Camera " + (i+1) + ":\n"
-                        + "("
-                        + managerCamera.getCameras().get(i).getPoint().getX() + ", "
-                        + managerCamera.getCameras().get(i).getPoint().getZ() + ", "
-                        + managerCamera.getCameras().get(i).getPoint().getX() + ")\n"
-                        + "Height angle: " + managerCamera.getCameras().get(i).getHeight_angle() + "\n"
-                        + "Width angle: " + managerCamera.getCameras().get(i).getWidth_angle() + "\n\n";
-                }
+                String str = null;
+                str = roomModel.getManagerCamera().printInfo();
                 
 				JOptionPane.showMessageDialog(null, str);
 			}
@@ -73,15 +63,7 @@ public class ShowRoom extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
                 String str = "";
-                
-                for(int i = 0; i < num_of_obj ; i++) {
-                    str += "Obj " + (i+1) + ":\n";
-                    for(int j=0; j<8 ; j++){
-                        str += "(" + managerObject.getObjects().get(i).getPoints()[j].getX() + ", "
-                                + managerObject.getObjects().get(i).getPoints()[j].getY() + ", "
-                                + managerObject.getObjects().get(i).getPoints()[j].getZ() + ")\n";
-                    }
-                }
+                str = roomModel.getManagerObject().printInfo();
 				JOptionPane.showMessageDialog(null, str);
 			}
 		});

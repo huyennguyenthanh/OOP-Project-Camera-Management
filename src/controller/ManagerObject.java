@@ -19,10 +19,11 @@ public class ManagerObject {
     public void addObject (Obj object, Room room) throws ExistedObjectException {
         if(!checkExistObject(object)) {
             this.objects.add(object);
+            this.num_objs += 1;
         }else{
             throw new ExistedObjectException("Object already exist !");
         }
-        this.num_objs += 1;
+        
     }
     public Obj searchObject(Obj object){
         Obj obj = this.objects.stream()
@@ -129,17 +130,26 @@ public class ManagerObject {
         return false;
     }
     
-    public void printInfo()
+    public String printInfo()
     {
-    	for(int i=0 ; i< this.num_objs; i++) {
-            System.out.println("Obj " + (i+1));
-            for(int j=0 ; j<8; j++) {
-                System.out.printf("%.0f cm %.0f cm %.0f cm %n", this.getObjects().get(i).getPoints()[j].getX(), 
-                                                        this.getObjects().get(i).getPoints()[j].getY(), 
-                                                        this.getObjects().get(i).getPoints()[j].getZ());
+//    	for(int i=0 ; i< this.num_objs; i++) {
+//            System.out.println("Obj " + (i+1));
+//            for(int j=0 ; j<8; j++) {
+//                System.out.printf("%.0f cm %.0f cm %.0f cm %n", this.getObjects().get(i).getPoints()[j].getX(), 
+//                                                        this.getObjects().get(i).getPoints()[j].getY(), 
+//                                                        this.getObjects().get(i).getPoints()[j].getZ());
+//            }
+//        }
+    	String str = null;
+        for(int i = 0; i < num_objs ; i++) {
+            str += "Obj " + (i+1) + ":\n";
+            for(int j=0; j<8 ; j++){
+                str += "(" + this.getObjects().get(i).getPoints()[j].getX() + ", "
+                        + this.getObjects().get(i).getPoints()[j].getY() + ", "
+                        + this.getObjects().get(i).getPoints()[j].getZ() + ")\n";
             }
         }
-
+        return str;
     }
 	public List<Obj> getObjects() {
 		return objects;
