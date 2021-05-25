@@ -16,7 +16,7 @@ public class ManagerObject {
     public ManagerObject(){
         this.objects = new ArrayList<>();
     }
-    public void addObject (Obj object) throws ExistedObjectException {
+    public void addObject (Obj object, Room room) throws ExistedObjectException {
         if(!checkExistObject(object)) {
             this.objects.add(object);
         }else{

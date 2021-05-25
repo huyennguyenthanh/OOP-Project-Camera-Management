@@ -16,7 +16,7 @@ public class ManagerCamera {
         this.cameras = new ArrayList<>();
     }
     
-    public void addCamera(Camera camera) {
+    public void addCamera(Camera camera, Room room) {
     	if(!checkExistCamera(camera)) {
             this.cameras.add(camera);
             this.num_cams += 1;
@@ -55,15 +55,26 @@ public class ManagerCamera {
 
     }
     
-    public void printInfo() {
-    	for(int i=0 ; i < this.num_cams ; i++) {
-            System.out.println("Camera " + (i+1));
-            
-                System.out.printf("%.0f cm %.0f cm  %.0f cm %n", this.getCameras().get(i).getPoint().getX(), 
-                                                    this.getCameras().get(i).getPoint().getY(), 
-                                                    this.getCameras().get(i).getPoint().getZ());
-            
+    public String printInfo() {
+    	String str = null;
+//    	for(int i=0 ; i < this.num_cams ; i++) {
+//            System.out.println("Camera " + (i+1));
+//            
+//                System.out.printf("%.0f cm %.0f cm  %.0f cm %n", this.getCameras().get(i).getPoint().getX(), 
+//                                                    this.getCameras().get(i).getPoint().getY(), 
+//                                                    this.getCameras().get(i).getPoint().getZ());
+//            
+//        }
+    	for(int i=0 ; i< num_cams ; i++) {
+            str += "Camera " + (i+1) + ":\n"
+                + "("
+                + this.getCameras().get(i).getPoint().getX() + ", "
+                + this.getCameras().get(i).getPoint().getZ() + ", "
+                + this.getCameras().get(i).getPoint().getX() + ")\n"
+                + "Height angle: " + this.getCameras().get(i).getHeight_angle() + "\n"
+                + "Width angle: " + this.getCameras().get(i).getWidth_angle() + "\n\n";
         }
+    	return str;
     }
 
 	public List<Camera> getCameras() {

@@ -14,8 +14,8 @@ public class Point {
         this.x = x;
     }
     public Point(float x, float y){
-        this.x = x;
-        this.y = y;
+        this.x = x * 100;
+        this.y = y * 100;
     }
     public Point(float x, float y, float z){
         this.x = x * 100;

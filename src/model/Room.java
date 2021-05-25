@@ -81,13 +81,22 @@ public class Room {
             return true;
     }
     
-    public void printInfo()
+    public String printInfo()
     {
+    	String str = null;
     	System.out.println("ROOM: ");
-    	for(int i=0 ; i<8 ; i++) {
-            System.out.printf("(%.2f %.2f %.2f) %n",this.getPoints()[i].getX(), 
-                                                    this.getPoints()[i].getY(), 
-                                                    this.getPoints()[i].getZ());
+    	str += "ROOM: \n";
+        for(int i = 0; i < 8 ; i++) {
+            str += "(" + this.getPoints()[i].getX() + ", "
+                        + this.getPoints()[i].getY() + ", "
+                        + this.getPoints()[i].getZ() + ")\n";
         }
+//    	for(int i=0 ; i<8 ; i++) {
+//            System.out.printf("(%.2f %.2f %.2f) %n",this.getPoints()[i].getX(), 
+//                                                    this.getPoints()[i].getY(), 
+//                                                    this.getPoints()[i].getZ());
+//        }
+    	return str;
     }
+    
 }

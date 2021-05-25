@@ -13,7 +13,7 @@ import model.*;
 import model.space.*;
 
 
-public class RoomController {
+public class RoomModel {
     
 	int num_of_camera;
     int num_of_obj;
@@ -164,14 +164,14 @@ public class RoomController {
                 Point_obj[j] = new Point(Float.parseFloat(xyz[0]), Float.parseFloat(xyz[1]), Float.parseFloat(xyz[2]));
 
 
-                System.out.println(Point_obj[j].getX() + " " + Point_obj[j].getY() + " " + Point_obj[j].getZ());
+                // System.out.println(Point_obj[j].getX() + " " + Point_obj[j].getY() + " " + Point_obj[j].getZ());
                 
                 // mangage Object add thêm obj (kiểm tra điều kiện vị trí)
             }
             Obj obj = new Obj(Point_obj);
             
 
-            this.managerObject.addObject(obj);
+            this.managerObject.addObject(obj, room);
 
         }
                 
@@ -219,7 +219,7 @@ public class RoomController {
             camera.setWidth_angle(w_angle);
             camera.setHeight_angle(h_angle);
 
-            this.managerCamera.addCamera(camera);
+            this.managerCamera.addCamera(camera, room);
 
 
                 // manage Camera add thêm camera ( kiểm tra điều kiện vị trí )
@@ -272,8 +272,32 @@ public class RoomController {
     	return false;
     }
     
-    
-    public boolean is_point_in_obj(Point p) {
+    // true means the point is inside the object
+    public boolean is_point_in_obj(Point point) {
+    	
+    	Calculation c = new Calculation();
+    	for (int i = 0; i < this.num_of_obj; i++)
+    	{
+    		Obj o = this.managerObject.getObjects().get(i);
+    		int check = 0;
+    	
+    		Vector3D m = new Vector3D(o.getPoints()[1], o.getPoints()[0]);
+    		Vector3D n = new Vector3D(o.getPoints()[3], o.getPoints()[0]);
+    		Vector3D p = new Vector3D(o.getPoints()[4], o.getPoints()[0]);
+    		Vector3D q = new Vector3D(point, o.getPoints()[0]);
+    		
+    		
+    		if ((0 <= c.ScalarVec(q, m)) && (c.ScalarVec(q, m) <= c.ScalarVec(m, m)))
+    			check += 1;
+    		if ((0 <= c.ScalarVec(q, n)) && (c.ScalarVec(q, n) <= c.ScalarVec(n, n)))
+    			check += 1;
+    		if ((0 <= c.ScalarVec(q, p)) && (c.ScalarVec(q, p) <= c.ScalarVec(p, p)))
+    			check += 1;
+    		
+    		// điểm nằm trong vật
+    		if (check == 3)
+    			return true;	
+    	}
     	
     	return false;
     	
@@ -283,7 +307,7 @@ public class RoomController {
     	int length = Math.round(this.room.getLength());
     	int height = Math.round(this.room.getHeight());
     	
-    	for (int i =0; i < width; i ++)
+    	for (int i = 0; i < width; i ++)
     	{
     		for (int j = 0; j < length; j++)
     		{

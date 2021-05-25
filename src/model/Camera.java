@@ -126,7 +126,7 @@ public class Camera {
     	
     	return;
     	}
-    	// xử lí trường hợp hình chiếu nằm ngoài phòng
+
     	
 
     }
@@ -145,6 +145,7 @@ public class Camera {
         	return c.PointToPlane(this.point,projection_plane)*c.Area_Quadrilateral(this.projection)/3;
         }
     }
+    
 
 	
 
