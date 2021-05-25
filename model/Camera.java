@@ -38,25 +38,6 @@ public class Camera {
     public void setWidth_angle(float width_angle) {
         this.width_angle = width_angle;
     }
-    public boolean checkOnWall(Room room){
-        if(point.getZ() == 0 )
-            return false;
-        // check thuoc mat phang A1B1BA
-        if(point.getY() == 0 && point.getX() <= room.getWidth() && point.getZ() <= room.getHeight())
-            return true;
-        // check thuộc mặt phẳng B1C1CB
-        if(point.getX() == room.getWidth() && point.getY() <= room.getLength() && point.getZ() <= room.getHeight())
-            return true;
-        // check thuộc mặt phẳng C1D1DC
-        if(point.getY() == room.getLength() && point.getX() <= room.getWidth() && point.getZ() <= room.getHeight())
-            return true;
-        return false;
-    }
-    public boolean checkAngle(){
-        if(width_angle <= 90 && height_angle <= 90)
-            return true;
-        else
-            return false;
-    }
+
 
 }

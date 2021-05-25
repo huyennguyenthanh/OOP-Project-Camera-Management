@@ -1,10 +1,23 @@
 package model;
+import Exception.*;
 
 public class Room {
     private Point [] points = new Point[8];
 
-    public Room(Point[] points){
+    public Room(Point[] points) throws CreateRoomException {
         this.points = points;
+        if(!checkListPoints())
+            throw new CreateRoomException("Phòng không đúng định dạng");
+    }
+    public Room(Point A, Point B, Point C, Point D, Point A1, Point B1, Point C1, Point D1){
+        this.points[0] = A;
+        this.points[1] = B;
+        this.points[2] = C;
+        this.points[3] = D;
+        this.points[4] = A1;
+        this.points[5] = B1;
+        this.points[6] = C1;
+        this.points[7] = D1;
     }
     public Room(Point B, Point C, Point D, Point A1, Point B1, Point C1, Point D1){
         this.points[0] = new Point(0,0,0);
