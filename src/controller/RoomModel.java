@@ -302,6 +302,19 @@ public class RoomModel {
     	return false;
     	
     }
+    
+    // kiểm tra xem 1 điểm có bị che khuất không , nếu bị che -> true
+    public boolean is_overcast_by_obj(Point point) {
+    	
+    	
+    	return true;
+    	
+    }
+    
+    
+    
+    
+    // tính toán vùng nhìn thấy
     public void visible_area() {
     	int width = Math.round(this.room.getWidth());
     	int length = Math.round(this.room.getLength());
