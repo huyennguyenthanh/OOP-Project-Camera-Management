@@ -2,7 +2,7 @@ package model;
 
 import model.space.Point;
 import model.space.Plane;
-import model.space.Line;
+
 
 import java.util.ArrayList;
 
@@ -94,7 +94,7 @@ public class Camera {
 	            return false;
 	    }
     
-    private void cal_projection() {
+    public void cal_projection(Room room) {
     	
 
     	float length = (float) (this.point.getZ() * Math.tan(this.height_angle));
@@ -114,20 +114,45 @@ public class Camera {
     	return;
     	}
     	
-    	if (this.is_on_wall) {
-    		
-    	// 
-    	// tìm hình chiếu khi camera từ tường chiếu ngang
-    	Point center_point = new Point(this.point.getX(), this.point.getY(), 0);
-    	this.projection.add(new Point(center_point.getX() - length, center_point.getY() - width, 0)); //A
-    	this.projection.add(new Point(center_point.getX() + length, center_point.getY() - width, 0)); // B
-    	this.projection.add(new Point(center_point.getX() + length, center_point.getY() + width, 0)); // C
-    	this.projection.add(new Point(center_point.getX() - length, center_point.getY() + width, 0)); // D
-    	
-    	return;
-    	}
-
-    	
+    	 if (this.is_on_wall) {
+             // tìm hình chiếu khi camera từ tường chiếu ngang
+             // nếu camera nằm ở tường A1B1BA (y = 0)
+             if(this.point.getY() == 0){
+                 Point center_point = new Point(this.point.getX(), room.getLength(),this.point.getZ());
+                 this.projection.add(new Point(center_point.getX()+width,room.getLength(),center_point.getZ()+length));
+                 this.projection.add(new Point(center_point.getX()-width,room.getLength(),center_point.getZ()+length));
+                 this.projection.add(new Point(center_point.getX()-width,room.getLength(), center_point.getZ()-length));
+                 this.projection.add(new Point(center_point.getX()+width,room.getLength(), center_point.getZ()-length));
+                 return;
+             }
+             // nếu camera nằm ở tường B1C1CB (x = room.getWidth)
+             if(this.point.getX() == room.getWidth()){
+                 Point center_point = new Point(0,this.point.getY(),this.point.getZ());
+                 this.projection.add(new Point(0,center_point.getY()-width, center_point.getZ()+length));
+                 this.projection.add(new Point(0,center_point.getY()+width,center_point.getZ()+length));
+                 this.projection.add(new Point(0, center_point.getY()+width, center_point.getZ()-length));
+                 this.projection.add(new Point(0, center_point.getY()-width, center_point.getZ()-length));
+                 return;
+             }
+             // nếu camera nằm ở tường C1D1DC ( y = room.getLength)
+             if(this.point.getY() == room.getLength()){
+                 Point center_point = new Point(this.point.getX(), 0,this.point.getZ());
+                 this.projection.add(new Point(center_point.getX()+width,0,center_point.getZ()+length));
+                 this.projection.add(new Point(center_point.getX()-width,0, center_point.getZ()+length));
+                 this.projection.add(new Point(center_point.getX()-width,0, center_point.getZ()-length));
+                 this.projection.add(new Point(center_point.getX()+width,0, center_point.getZ()-length));
+                 return;
+             }
+             // nếu camera nằm ở tường A1D1DA (x = 0)
+             if(this.point.getX() == 0){
+                 Point center_point = new Point(room.getWidth(), this.point.getY(),this.point.getZ());
+                 this.projection.add(new Point(room.getWidth(), center_point.getY()-width, center_point.getZ()+length));
+                 this.projection.add(new Point(room.getWidth(), center_point.getY()+width, center_point.getZ()+length));
+                 this.projection.add(new Point(room.getWidth(), center_point.getY()+width, center_point.getZ()-length));
+                 this.projection.add(new Point(room.getWidth(),center_point.getY()-width, center_point.getZ()-length));
+                 return;
+             }
+    	 }	
 
     }
     
@@ -135,19 +160,19 @@ public class Camera {
     public float volume_visible_area()
     {
     	Calculation c = new Calculation();
+    	System.out.println("hereee ");
     	Plane projection_plane = new Plane(projection.get(0), projection.get(1), projection.get(2));
-        //System.out.println("is one pyramid");
+        System.out.println("is one pyramid");
         if(c.IsInPlane(this.point, projection_plane)){
             return (float) 0.0;
         }else{
         	// chiều cao nhân diện tích đáy
-        	// System.out.println(Area_Triangle(p));
+        	System.out.println("hereee ");
         	return c.PointToPlane(this.point,projection_plane)*c.Area_Quadrilateral(this.projection)/3;
         }
     }
     
-
-	
+    
 
 
 }

@@ -73,6 +73,9 @@ public class checkInput {
 					boolean check1 = roomModel.is_point_in_cam(point);
 					boolean check2 = roomModel.is_point_in_obj(point);
 					boolean check3 = roomModel.is_overcast_by_obj(point);
+					System.out.print(check1);
+					System.out.print(check2);
+					System.out.print(check3);
 					
 					
 					if (check1)

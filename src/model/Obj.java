@@ -1,6 +1,6 @@
 package model;
 
-import Exception.ArrayIndexException;
+
 import model.space.Point;
 import model.space.Vector2D;
 public class Obj  {
@@ -27,23 +27,17 @@ public class Obj  {
     public void setPoints(Point[] points) {
         this.points = points;
     }
-
-    public Point getPoint (int index) throws ArrayIndexException {
-        if(index >=0 && index <= 7){
-            return points[index];
-        }else{
-            throw new ArrayIndexException();
-        }
+    public Point getPoint (int index)  {
+        return points[index];
     }
-    public void setPoint(int index, Point point){
-        try{
-            this.points[index] = point;
-        }catch (ArrayIndexOutOfBoundsException er){
-        }
+    public void setPoint(int index, Point point) throws ArrayIndexOutOfBoundsException{
+        this.points[index] = point;
     }
     public float getHeight(){
         return points[4].getZ() - points[0].getZ();
     }
+    
+    
     public boolean equals (Obj object){
         if(object != null){
             Point[] pointsObject = object.getPoints();
@@ -56,6 +50,8 @@ public class Obj  {
             return false;
         }
     }
+    
+    
     // Kiểm tra xem vật thể có phải hình hộp chữ nhật
     public boolean checkRectangularBox (){
         // kiểm tra ABCD và A1B1C1D1 co la mat phang va song song voi mat day khong

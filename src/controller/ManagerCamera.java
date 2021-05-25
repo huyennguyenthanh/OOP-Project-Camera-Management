@@ -2,13 +2,14 @@ package controller;
 
 import model.Camera;
 import model.Room;
+import model.space.Point;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerCamera {
     private List<Camera> cameras;
-    private int num_cams;
+    private int num_cams = 0;
     
     public ManagerCamera(){
         this.cameras = new ArrayList<>();
@@ -17,7 +18,11 @@ public class ManagerCamera {
     public void addCamera(Camera camera, Room room) {
     	if(!checkExistCamera(camera)) {
             this.cameras.add(camera);
+            this.cameras.get(num_cams).setIs_on_ceil(checkOnCeiling(camera, room)) ;
+            this.cameras.get(num_cams).setIs_on_ceil(checkOnWall(camera, room));
+            this.cameras.get(num_cams).cal_projection(room); ;
             this.num_cams += 1;
+            
     	}
         
     }
@@ -44,14 +49,37 @@ public class ManagerCamera {
     
     
     public boolean checkOnWall(Camera camera, Room room){
-    	return true;
-        
-    }
-    public boolean checkOnCeiling(Camera camera, Room room){
-    	return true;
-        
+    	Point point = camera.getPoint();
+        if(point.getZ() == 0 )
+            return false;
+        // check thuoc mat phang A1B1BA
+        if(point.getY() == 0 && point.getX() <= room.getWidth() && point.getZ() <= room.getHeight())
+            return true;
+        // check thuộc mặt phẳng B1C1CB
+        if(point.getX() == room.getWidth() && point.getY() <= room.getLength() && point.getZ() <= room.getHeight())
+            return true;
+        // check thuộc mặt phẳng C1D1DC
+        if(point.getY() == room.getLength() && point.getX() <= room.getWidth() && point.getZ() <= room.getHeight())
+            return true;
+        // check thuộc mặt phẳng A1D1DA
+        if(point.getX() == 0 && point.getY() <= room.getLength() && point.getZ() <= room.getHeight())
+            return true;
+        return false;
 
+        
     }
+    
+    public boolean checkOnCeiling(Camera camera, Room room){
+    	Point point = camera.getPoint();
+        if(point.getZ() == 0 )
+            return false;
+        // check thuộc mặt phẳng trần (A1B1C1D1)
+        if(point.getZ() == room.getHeight() && point.getX() <= room.getWidth() && point.getY() <= room.getLength())
+            return true;
+        else
+            return false;
+    }
+    
     
     public String printInfo() {
     	String str = null;

@@ -8,8 +8,10 @@ import java.io.FileNotFoundException;
 
 import javax.swing.*;
 
-import Exception.ExistedObjectException;
 import controller.RoomModel;
+import exception.CreateRoomException;
+import exception.InvalidObject;
+
 
 public class RoomView{ 
 	
@@ -45,9 +47,10 @@ public class RoomView{
 					try {
 					 
 						  String url;
-					      url = JOptionPane.showInputDialog(null, "Please input path of text: ",
-					      "Input path", JOptionPane.INFORMATION_MESSAGE);
+//					      url = JOptionPane.showInputDialog(null, "Please input path of text: ",
+//					      "Input path", JOptionPane.INFORMATION_MESSAGE);
 					      
+					      url = "./src/input.txt";
 					      roomModel.readfile(url);
 					      System.out.println("obj: " + roomModel.getNum_of_camera());
 					      System.out.println("camera: " + roomModel.getNum_of_camera());
@@ -58,7 +61,10 @@ public class RoomView{
 					} catch (FileNotFoundException e1) {
 					     // TODO Auto-generated catch block
 						e1.printStackTrace();
-					} catch (ExistedObjectException e1) {
+					} catch (CreateRoomException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (InvalidObject e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}

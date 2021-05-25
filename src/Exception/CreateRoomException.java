@@ -1,7 +1,10 @@
-package Exception;
+package exception;
 
 public class CreateRoomException extends Exception{
-    public CreateRoomException() {
+
+	private static final long serialVersionUID = 1L;
+
+	public CreateRoomException() {
     }
 
     public CreateRoomException(String message) {

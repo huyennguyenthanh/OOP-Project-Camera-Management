@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Exception.ExistedObjectException;
+import exception.CreateRoomException;
+import exception.InvalidObject;
 
 import java.io.FileNotFoundException;
 
@@ -63,7 +64,7 @@ public class RoomModel {
 		this.managerObject = managerObject;
 	}
     
-    public void readfile (String url) throws FileNotFoundException, ExistedObjectException {
+    public void readfile (String url) throws FileNotFoundException, CreateRoomException, InvalidObject {
     	String [] lines = new String[100]; // các dòng đọc từ text
         int i = 0; 
         

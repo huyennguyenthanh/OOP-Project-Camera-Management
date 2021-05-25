@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JOptionPane;
 
-import Exception.ExistedObjectException;
 import controller.*;
 import view.*;
 public class RoomController {
@@ -15,7 +14,7 @@ public class RoomController {
 		
 	}
 	
-	public void run() throws FileNotFoundException, ExistedObjectException {
+	public void run() throws FileNotFoundException {
 //		  String url;
 //	      url = JOptionPane.showInputDialog(null, "Please input path of text: ",
 //	      "Input path", JOptionPane.INFORMATION_MESSAGE);
