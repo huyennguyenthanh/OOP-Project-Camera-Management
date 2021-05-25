@@ -101,5 +101,35 @@ public class Calculation {
             return false;
         }
     }
+    
+    //relative between line and plane
+    //A(xo + at) + B(yo + bt) + C(zo+ct) + D = 0
+    //(Aa + Bb + Cc)t + (Axo + Byo + Czo + D) = 0
+    public int RelLineToPlane(Line d, Plane P){
+        float a = P.getA()*d.getA()+P.getB()*d.getB()+P.getC()*d.getC();
+        float b = P.getA()*d.getXo()+P.getB()*d.getYo()+P.getC()+d.getZo() + P.getD();
+        if(a == 0){
+            if(b == 0){
+                return -1;//d in P
+            }else{
+                return 1;//d // P
+            }
+        }else{
+            return 0; // d intersect P
+        }
+    }
+    // tìm giao điểm
+    //get intersect point
+    public Point GetIntPoint(Line d, Plane P){
+        float a = P.getA()*d.getA()+P.getB()*d.getB()+P.getC()*d.getC();
+        float b = P.getA()*d.getXo()+P.getB()*d.getYo()+P.getC()*d.getZo() + P.getD();
+        if(RelLineToPlane(d,P) == 0){
+            float t = -b/a;
+            Point A = new Point(d.getXo()+d.getA()*t, d.getYo()+d.getB()*t,d.getZo()+d.getC()*t);
+            return A;
+        }else{
+            return null;
+        }
+    }
 }
 
