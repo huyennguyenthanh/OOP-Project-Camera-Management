@@ -113,7 +113,7 @@ public class ManagerCamera {
     
     
     public String printInfo() {
-    	String str = null;
+    	String str = "";
 //    	for(int i=0 ; i < this.num_cams ; i++) {
 //            System.out.println("Camera " + (i+1));
 //            

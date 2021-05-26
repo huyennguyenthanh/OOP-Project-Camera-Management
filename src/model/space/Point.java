@@ -10,17 +10,11 @@ public class Point {
     private boolean in_camera = true;
     
     public Point(){};
-    public Point(double x){
-        this.x = x * 100;
-    }
-    public Point(double x, double y){
-        this.x = x * 100;
-        this.y = y * 100;
-    }
+    
     public Point(double x, double y, double z){
-        this.x = x * 100;
-        this.y = y * 100;
-        this.z = z * 100;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
     public double getX() {
         return x;

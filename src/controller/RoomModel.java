@@ -123,7 +123,7 @@ public class RoomModel {
             str_point[j].replace("(", "");
             // str_point[j].trim();
             xyz = str_point[j].split(", ");
-            Point[j] = new Point(Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
+            Point[j] = new Point(Double.parseDouble(xyz[0]) * 100, Double.parseDouble(xyz[1]) * 100, Double.parseDouble(xyz[2]) * 100);
             System.out.print(Point[j].printInfo());
             
         }
@@ -163,7 +163,7 @@ public class RoomModel {
                 // str_point[j].trim();
 
                 xyz = str_point[j].split(", ");
-                Point_obj[j] = new Point(Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
+                Point_obj[j] = new Point(Double.parseDouble(xyz[0]) * 100, Double.parseDouble(xyz[1]) * 100, Double.parseDouble(xyz[2]) * 100);
 
 
                 // System.out.println(Point_obj[j].getX() + " " + Point_obj[j].getY() + " " + Point_obj[j].getZ());
@@ -210,7 +210,7 @@ public class RoomModel {
            
             // str_point[j].trim();
             xyz = str_point[0].split(", ");
-            Point p = new Point(Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
+            Point p = new Point(Double.parseDouble(xyz[0]) * 100, Double.parseDouble(xyz[1]) * 100, Double.parseDouble(xyz[2]) * 100);
             
             // str_point[1].trim();
            
@@ -353,6 +353,27 @@ public class RoomModel {
     
     
     
+    
+    // nếu một điểm là nhìn thấy return true
+    private boolean is_point_visible(Point point)
+    {
+    	if (is_point_in_obj(point))
+    	{
+    		return false;
+    	}
+    		
+    	else if (is_overcast_by_obj(point))
+    	{
+    		return false;
+    	}
+    	else if (is_point_in_cam(point))
+    	{
+    		return true;
+    	}
+    	return false;
+    }
+    
+    
     // tính toán vùng nhìn thấy
     public int visible_area() {
     	int width = (int) Math.round(this.room.getWidth());
@@ -366,16 +387,79 @@ public class RoomModel {
     		{
     			for (int k = 0; k < height; k++)
     			{
-    				
+    				Point point = new Point(i, j, k);
+        			if (is_point_visible(point))
+        				V += 1;
     			}
     		}
     	}
     	
     	return V;
-    	
-    	
-    	
+
     }
+    
+    // tính hình chiếu từ trái sang phải ADD1A1
+    // 1 là nhìn thấy, 0 là không nhìn thấy
+    public int [][] projection_left_to_right(){
+    	int m = (int) Math.round(this.room.getLength());
+    	int n = (int) Math.round(this.room.getHeight());
+
+		int [][] projection =  new int[m + 1][n + 1];
+		
+		for (int i = 0; i < m; i ++)
+    	{
+    		for (int j = 0; j < n; j++)
+    		{
+    			Point point = new Point(0, i, j);
+    			if (is_point_visible(point))
+    				projection[i][j] = 1;
+    			else 
+    				projection[i][j] = 0;
+    				
+    		}
+    	}
+		return projection;
+
+    }
+    
+ 
+    // tính hình chiếu từ phải sang trái BCC1B1
+    // 1 là nhìn thấy, 0 là không nhìn thấy
+    public int [][] projection_right_to_left(){
+    	// Code here
+		return null;
+    }
+    
+ 
+    // tính hình chiếu từ trên xuống dưới A1B1C1D1
+    // 1 là nhìn thấy, 0 là không nhìn thấy
+    public int [][] projection_top_to_bottom(){
+    	// Code here
+		return null;
+    }
+ 
+    // tính hình chiếu từ dưới lên trên ABCD
+    // 1 là nhìn thấy, 0 là không nhìn thấy
+    public int [][] projection_bottom_to_top(){
+    	// Code here
+		return null;
+    }
+ 
+    // tính hình chiếu từ trước về sau CDD1C1
+    // 1 là nhìn thấy, 0 là không nhìn thấy
+    public int [][] projection_front_to_back(){
+    	// Code here
+		return null;
+    }
+    // tính hình chiếu từ sau ra trưóc ABB1A1
+    // 1 là nhìn thấy, 0 là không nhìn thấy
+    public int [][] projection_back_to_front(){
+    	// Code here
+		return null;
+    }
+    
+    
+    
 
 
 
