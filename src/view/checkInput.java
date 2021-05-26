@@ -60,9 +60,9 @@ public class checkInput {
 				float x, y, z;
 				//frame.setVisible(false);
 				if(!xText.getText().equals("") && !yText.getText().equals("") && !zText.getText().equals("")) {
-					x=Float.parseFloat(xText.getText());
-					y=Float.parseFloat(yText.getText());
-					z=Float.parseFloat(zText.getText());
+					x = Float.parseFloat(xText.getText()) * 100;
+					y = Float.parseFloat(yText.getText()) * 100;
+					z = Float.parseFloat(zText.getText()) * 100;
 
 					
 					String data = null;
