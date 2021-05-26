@@ -75,31 +75,57 @@ public class checkInput {
 					boolean check2 = roomModel.is_point_in_cam(point);
 					System.out.print("\nIs in cam : " + check2);
 					
-//					boolean check3 = roomModel.is_overcast_by_obj(point);
-//					System.out.print("/nis overcast :" +  check3);
+					boolean check3 = roomModel.is_overcast_by_obj(point);
+					System.out.print("/nis overcast :" +  check3);
 					
+					
+
+//					else if (check3)
+//					{
+//						data = "Điểm không nằm trong object \nĐiểm bị che khuất bởi object khác\n"
+//								+ "Không thể thấy điểm.\n";
+//					}
+//					else if (check2)
+//					{
+//						data = "Điểm không nằm trong object nào\n"
+//								+ "Không bị che khuất bởi vật khác\n"
+//								+ "Nằm trong vùng nhìn thấy của cam.\n";
+//					}
+//					else {
+//						data = "Điểm không nằm trong object nào\n"
+//								+ "Không bị che khuất bởi vật khác\n"
+//								+ "Không trong vùng nhìn thấy của bất kì camera nào.\n";
+//					}
 					
 					if (check1)
 					{
 						data = "Điểm nằm trong object. Không thể thấy điểm.\n";
 					}
-					//else if (check3)
-					//{
-						//data = "Điểm không nằm trong object \nĐiểm bị che khuất bởi object khác\n"
-								//+ "Không thể thấy điểm.\n";
-					//}
-					else if (check2)
+					else 
 					{
-						data = "Điểm không nằm trong object nào\n"
-								+ "Không bị che khuất bởi vật khác\n"
-								+ "Nằm trong vùng nhìn thấy của cam.\n";
+						data = "Điểm không nằm trong object nào";
 					}
-					else {
-						data = "Điểm không nằm trong object nào\n"
-								+ "Không bị che khuất bởi vật khác\n"
-								+ "Không trong vùng nhìn thấy của bất kì camera nào.\n";
+					
+					if (check2)
+					{
+						data = "Điểm nằm trong vùng nhìn thấy của cam.\n";
+					}						
+					else 
+					{
+						data = "Điểm nằm không nằm trong vùng nhìn thấy của cam.\n";
 					}
-						
+					
+					if (check3)
+					{
+						data = "Điểm bị chắn bởi vật\n";
+					}
+					else
+					{
+						data = "Điểm Không bị che khuất bởi vật khác\n";
+					}
+					
+	
+					
 					System.out.print(data);
 					status.setText(data);
 
