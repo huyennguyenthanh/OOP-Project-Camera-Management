@@ -115,8 +115,8 @@ public class showRoomProjection {
 				double V = roomModel.room.get_V();
 				
 				str = "Thể tích căn phòng: " + V/1000000 + " m^3\n"
-						+ "Thể tích vùng nhìn thấy: " + V_see/10000000 + " m^3\n"
-								+ "Phần trăm: " + V_see/V + "%\n";			
+						+ "Thể tích vùng nhìn thấy: " + V_see/1000000 + " m^3\n"
+								+ "Phần trăm: " + V_see/V*100 + "%\n";			
 
 				JOptionPane.showMessageDialog(null, str);
 			}

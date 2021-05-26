@@ -436,7 +436,7 @@ public class RoomModel {
     		
     		}
     		if (i%10 == 0)
-    			System.out.print("\nLoading: " + i + "%");
+    			System.out.print("\nLoading: " + i/width*100 + "%");
     	}
     	
     	return V;

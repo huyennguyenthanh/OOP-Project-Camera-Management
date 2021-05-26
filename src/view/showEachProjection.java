@@ -97,7 +97,12 @@ class SmileyApp extends JPanel {
 		//this.hc = hc;
 		for (int i = 0; i < 1000; i++)
 			for (int j = 0; j < 1000; j++)
+			{
+				
 				this.hc[i][j] = getRandomNumber(0, 1);
+				System.out.print(this.hc[i][j]);
+			}
+				
 		
 	}
 
@@ -120,6 +125,15 @@ class SmileyApp extends JPanel {
 					g.fillRect(i, j, 1, 1);
 
 					}
+					else
+					{
+						g.setColor(background_cl1);
+						
+						g.fillRect(i, j, 1, 1);
+
+						
+					}
+						
 					
 				}
 		
