@@ -42,8 +42,8 @@ public class ManagerObject {
 	
     public void addObject (Obj object,Room room) throws InvalidObject {
         if(checkInRoom(room,object)){
-            if(!checkRectangularBox(object)){
-                if(!checkOverlapObject(object))
+            if(checkRectangularBox(object)){
+                if(checkOverlapObject(object))
                     throw new InvalidObject("Invalid Object");
                 else{
                     this.objects.add(object);
@@ -123,6 +123,8 @@ public class ManagerObject {
         }
         if(points[4].getZ() <= points[0].getZ())
             return false;
+        
+        System.out.print("Check 2 mặt phẳng song song đáy đúng.\n");
         // kiem tra  hinh chieu cua ABCD va A1B1C1D1 len mat phang 0xy co trung nhau khong
         Point p1,p2 ;
         for(int i = 0 ; i <=3 ; i ++ ){
@@ -137,6 +139,7 @@ public class ManagerObject {
                 return false;
         }
 
+        System.out.print("Check hình chiếu trùng đúng.\n");
         // kiem tra ABCD hoac A1B1C1 la hinh chu nhat
         // Vecto AB(x,y) ; DC(x1,y1) ; AD(x2,y2)
         Vector2D AB = new Vector2D(points[1].getX() - points[0].getX(),points[1].getY() - points[0].getY());
@@ -148,13 +151,14 @@ public class ManagerObject {
         {
             return false;
         }
+        System.out.print("Check AB vuông góc AD đúng.\n");
         // kiem tra AB // DC
         if(!AB.checkEqualVectors(DC))
         {
             return false;
         }
-        else
-            return true;
+        System.out.print("Check song song đúng.\n");
+        return true;
     }
     
     public boolean checkOverlapObject(Obj object) {
@@ -332,9 +336,7 @@ public class ManagerObject {
         for(int i = 0; i < num_objs ; i++) {
             str += "Object " + (i+1) + ":\n";
             for(int j=0; j<8 ; j++){
-                str += "(" + this.getObjects().get(i).getPoints()[j].getX()/100 + ", "
-                        + this.getObjects().get(i).getPoints()[j].getY()/100 + ", "
-                        + this.getObjects().get(i).getPoints()[j].getZ()/100 + ")\n";
+                str += this.getObjects().get(i).getPoints()[j].printInfo();
             }
         }
         return str;

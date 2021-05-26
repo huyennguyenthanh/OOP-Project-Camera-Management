@@ -172,6 +172,22 @@ public class Camera {
         }
     }
     
+    public String printInfo()
+    {
+    	String str = "";
+    	str += "("
+                + this.getPoint().getX()/100 + ", "
+                + this.getPoint().getZ()/100 + ", "
+                + this.getPoint().getX()/100 + ")\n"
+                + "Height angle: " + this.getHeight_angle() + "\n"
+                + "Width angle: " + this.getWidth_angle() + "\n\n";
+    	if (this.is_on_ceil)
+    		str += "Camera gắn trên trần.\n\n";
+    	else if (this.is_on_wall)
+    		str += "Camera gắn trên tường.\n\n";
+    	return str;
+    }
+    
     
 
 

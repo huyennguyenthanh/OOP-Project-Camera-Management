@@ -5,8 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controller.RoomModel;
-public class ShowRoomProjection {
-	public ShowRoomProjection(RoomModel roomModel) {
+public class showRoomProjection {
+	public showRoomProjection(RoomModel roomModel) {
 		JFrame frame = new JFrame("Show View");
 		frame.setSize(500, 400);
 		frame.setLayout(null);

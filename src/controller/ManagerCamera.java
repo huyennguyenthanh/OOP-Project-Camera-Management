@@ -50,7 +50,7 @@ public class ManagerCamera {
         
         this.cameras.add(camera);
         this.cameras.get(num_cams).setIs_on_ceil(checkOnCeiling(camera, room)) ;
-        this.cameras.get(num_cams).setIs_on_ceil(checkOnWall(camera, room));
+        this.cameras.get(num_cams).setIs_on_wall(checkOnWall(camera, room));
         this.cameras.get(num_cams).cal_projection(room);
         this.num_cams += 1;
     }
@@ -84,14 +84,16 @@ public class ManagerCamera {
         if(point.getY() == 0 && point.getX() <= room.getWidth() && point.getZ() <= room.getHeight())
             return true;
         // check thuộc mặt phẳng B1C1CB
-        if(point.getX() == room.getWidth() && point.getY() <= room.getLength() && point.getZ() <= room.getHeight())
+        if(point.getX() == room.getWidth() && point.getY() <= room.getLength() && 0 < point.getZ() && point.getZ() <= room.getHeight())
             return true;
         // check thuộc mặt phẳng C1D1DC
-        if(point.getY() == room.getLength() && point.getX() <= room.getWidth() && point.getZ() <= room.getHeight())
+        if(point.getY() == room.getLength() && point.getX() <= room.getWidth() && 0 < point.getZ() && point.getZ() <= room.getHeight())
             return true;
         // check thuộc mặt phẳng A1D1DA
         if(point.getX() == 0 && point.getY() <= room.getLength() && point.getZ() <= room.getHeight())
             return true;
+        
+        System.out.print("Check camera: trên tường đúng.\n");
         return false;
 
         
@@ -104,8 +106,9 @@ public class ManagerCamera {
         // check thuộc mặt phẳng trần (A1B1C1D1)
         if(point.getZ() == room.getHeight() && point.getX() <= room.getWidth() && point.getY() <= room.getLength())
             return true;
-        else
-            return false;
+        
+        System.out.print("Check camera: trên trần đúng.\n");
+        return false;
     }
     
     
@@ -121,13 +124,8 @@ public class ManagerCamera {
 //        }
     	str += "Number of cameras: " + num_cams + "cam \n";
     	for(int i=0 ; i< num_cams ; i++) {
-            str += "Camera " + (i+1) + ":\n"
-                + "("
-                + this.getCameras().get(i).getPoint().getX()/100 + ", "
-                + this.getCameras().get(i).getPoint().getZ()/100 + ", "
-                + this.getCameras().get(i).getPoint().getX()/100 + ")\n"
-                + "Height angle: " + this.getCameras().get(i).getHeight_angle() + "\n"
-                + "Width angle: " + this.getCameras().get(i).getWidth_angle() + "\n\n";
+    		str += "Camera " + (i+1) + ":\n"
+                    + this.getCameras().get(i).printInfo();
         }
     	return str;
     }

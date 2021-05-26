@@ -68,7 +68,7 @@ public class Point {
 	public String printInfo()
     {
     	String str = "";
-            str += "(" + this.getX()/100 + " , "
+        str += "(" + this.getX()/100 + " , "
                         + this.getY()/100 + ", "
                         + this.getZ()/100 + ") \n";
 
