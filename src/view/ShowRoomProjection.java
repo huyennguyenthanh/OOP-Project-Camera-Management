@@ -106,8 +106,8 @@ public class ShowRoomProjection {
 				// in phan tram nhìn thấy
 				String str = null;
 				
-				float V_see = roomModel.visible_area();
-				float V = roomModel.room.get_V();
+				double V_see = roomModel.visible_area();
+				double V = roomModel.room.get_V();
 				
 				str = "Thể tích căn phòng: " + V/1000000 + " m^3\n"
 						+ "Thể tích vùng nhìn thấy: " + V_see/10000000 + " m^3\n"

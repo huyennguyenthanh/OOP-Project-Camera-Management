@@ -1,7 +1,7 @@
 package model.space;
 
 public class Point {
-    private float x,y,z;
+    private double x,y,z;
     
     // true is in obj, false is not in obj
     private boolean in_obj = true;
@@ -10,39 +10,39 @@ public class Point {
     private boolean in_camera = true;
     
     public Point(){};
-    public Point(float x){
+    public Point(double x){
         this.x = x * 100;
     }
-    public Point(float x, float y){
+    public Point(double x, double y){
         this.x = x * 100;
         this.y = y * 100;
     }
-    public Point(float x, float y, float z){
+    public Point(double x, double y, double z){
         this.x = x * 100;
         this.y = y * 100;
         this.z = z * 100;
     }
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public float getZ() {
+    public double getZ() {
         return z;
     }
 
-    public void setZ(float z) {
+    public void setZ(double z) {
         this.z = z;
     }
     public boolean equals(Point point){
@@ -65,6 +65,14 @@ public class Point {
 	public void setIn_camera(boolean in_camera) {
 		this.in_camera = in_camera;
 	}
-	
+	public String printInfo()
+    {
+    	String str = "";
+            str += "(" + this.getX()/100 + " , "
+                        + this.getY()/100 + ", "
+                        + this.getZ()/100 + ") \n";
+
+    	return str;
+    }
 
 }

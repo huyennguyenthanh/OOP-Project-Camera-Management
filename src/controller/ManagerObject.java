@@ -109,7 +109,7 @@ public class ManagerObject {
             return true;
         }
     }
-    // Kiểm tra xem vật thể có phải hình hộp chữ nhật
+    // Kiểm tra xem vật thể có phải hình hộp chữ nhật, nếu phải --> true
     private boolean checkRectangularBox (Obj object){
         // kiểm tra ABCD và A1B1C1D1 co la mat phang va song song voi mat day khong
         Point[] points = object.getPoints();
@@ -305,9 +305,9 @@ public class ManagerObject {
     }
     
     private boolean checkInRoom(Room room, Obj object){
-        float width = room.getWidth();
-        float length = room.getLength();
-        float height = room.getHeight();
+        double width = room.getWidth();
+        double length = room.getLength();
+        double height = room.getHeight();
         for(int i = 0 ; i <= 7 ; i++){
             if(object.getPoints()[i].getX() > width || object.getPoints()[i].getY() > length)
                 return false;

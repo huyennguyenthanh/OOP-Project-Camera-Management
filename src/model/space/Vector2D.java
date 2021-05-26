@@ -1,24 +1,24 @@
 package model.space;
 
 public class Vector2D {
-    private float x,y;
+    private double x,y;
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
-    public Vector2D(float x,float y){
+    public Vector2D(double x,double y){
         this.x = x;
         this.y = y;
     }
@@ -40,7 +40,7 @@ public class Vector2D {
         else
             return false;
     }
-    public float dotVectors(Vector2D vector){
+    public double dotVectors(Vector2D vector){
         return x*vector.getX() + y*vector.getY();
     }
 

@@ -7,6 +7,8 @@ import model.space.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.InvalidCamera;
+
 public class ManagerCamera {
     private List<Camera> cameras;
     private int num_cams = 0;
@@ -14,17 +16,43 @@ public class ManagerCamera {
     public ManagerCamera(){
         this.cameras = new ArrayList<>();
     }
+	public List<Camera> getCameras() {
+		return cameras;
+	}
+
+	public void setCameras(List<Camera> cameras) {
+		this.cameras = cameras;
+	}
+
+	public int getNum_cams() {
+		return num_cams;
+	}
+
+	public void setNum_cams(int num_cams) {
+		this.num_cams = num_cams;
+	}
+	
+	
     
-    public void addCamera(Camera camera, Room room) {
-    	if(!checkExistCamera(camera)) {
-            this.cameras.add(camera);
-            this.cameras.get(num_cams).setIs_on_ceil(checkOnCeiling(camera, room)) ;
-            this.cameras.get(num_cams).setIs_on_ceil(checkOnWall(camera, room));
-            this.cameras.get(num_cams).cal_projection(room); ;
-            this.num_cams += 1;
-            
-    	}
+   
+    public void addCamera(Camera camera, Room room) throws InvalidCamera {
+        if(checkExistCamera(camera)){
+            throw new InvalidCamera("Camera already exists !");
+        }
         
+        if(!camera.checkAngle()){
+            throw new InvalidCamera("Invalid angle !");
+        }
+        
+        if(!checkOnWall(camera, room) && !checkOnCeiling(camera, room)){
+            throw new InvalidCamera("Camera is not on the wall or the ceiling !");
+        }
+        
+        this.cameras.add(camera);
+        this.cameras.get(num_cams).setIs_on_ceil(checkOnCeiling(camera, room)) ;
+        this.cameras.get(num_cams).setIs_on_ceil(checkOnWall(camera, room));
+        this.cameras.get(num_cams).cal_projection(room);
+        this.num_cams += 1;
     }
 
     public Camera searchCamera(Camera camera){
@@ -104,19 +132,5 @@ public class ManagerCamera {
     	return str;
     }
 
-	public List<Camera> getCameras() {
-		return cameras;
-	}
 
-	public void setCameras(List<Camera> cameras) {
-		this.cameras = cameras;
-	}
-
-	public int getNum_cams() {
-		return num_cams;
-	}
-
-	public void setNum_cams(int num_cams) {
-		this.num_cams = num_cams;
-	}
 }

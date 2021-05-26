@@ -4,49 +4,49 @@ public class Line {
 	
 	//x = xo + at,y=yo+bt, z= zo +ct
 	
-    private float xo;
-    private float yo;
-    private float zo;
-    private float a;
-    private float b;
-    private float c;
-    public float getXo() {
+    private double xo;
+    private double yo;
+    private double zo;
+    private double a;
+    private double b;
+    private double c;
+    public double getXo() {
         return xo;
     }
-    public void setXo(float xo) {
+    public void setXo(double xo) {
         this.xo = xo;
     }
-    public float getYo() {
+    public double getYo() {
         return yo;
     }
-    public void setYo(float yo) {
+    public void setYo(double yo) {
         this.yo = yo;
     }
-    public float getZo() {
+    public double getZo() {
         return zo;
     }
-    public void setZo(float zo) {
+    public void setZo(double zo) {
         this.zo = zo;
     }
-    public float getA() {
+    public double getA() {
         return a;
     }
-    public void setA(float a) {
+    public void setA(double a) {
         this.a = a;
     }
-    public float getB() {
+    public double getB() {
         return b;
     }
-    public void setB(float b) {
+    public void setB(double b) {
         this.b = b;
     }
-    public float getC() {
+    public double getC() {
         return c;
     }
-    public void setC(float c) {
+    public void setC(double c) {
         this.c = c;
     }
-    public Line(float xo, float yo, float zo, float a, float b, float c) {
+    public Line(double xo, double yo, double zo, double a, double b, double c) {
         this.xo = xo;
         this.yo = yo;
         this.zo = zo;

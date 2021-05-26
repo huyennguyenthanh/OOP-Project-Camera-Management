@@ -10,23 +10,23 @@ import model.space.*;
 
 public class Camera {
     private Point point = new Point();
-    private float height_angle;
-    private float width_angle;
+    private double height_angle;
+    private double width_angle;
     
     private boolean is_on_wall = true;
     private boolean is_on_ceil = true;
     
 
     private ArrayList<Point> projection = new ArrayList<>();
-    private float V;
+    private double V;
     public Camera() {
 
     }
 
-    public Camera(Point point, float w_angle, float h_angle) {
+    public Camera(Point point, double w_angle, double h_angle) {
         this.point = point;
-        this.width_angle = (float) Math.toRadians(h_angle/2);
-        this.height_angle = (float) Math.toRadians(h_angle/2);
+        this.width_angle = (double) Math.toRadians(h_angle/2);
+        this.height_angle = (double) Math.toRadians(h_angle/2);
     }
 
     public Point getPoint() {
@@ -37,19 +37,19 @@ public class Camera {
         this.point = point;
     }
 
-    public float getHeight_angle() {
+    public double getHeight_angle() {
         return height_angle;
     }
 
-    public void setHeight_angle(float height_angle) {
+    public void setHeight_angle(double height_angle) {
         this.height_angle = height_angle;
     }
 
-    public float getWidth_angle() {
+    public double getWidth_angle() {
         return width_angle;
     }
 
-    public void setWidth_angle(float width_angle) {
+    public void setWidth_angle(double width_angle) {
         this.width_angle = width_angle;
     }
    
@@ -61,11 +61,11 @@ public class Camera {
 		this.projection = projection;
 	}
 
-	public float getV() {
+	public double getV() {
 		return V;
 	}
 
-	public void setV(float v) {
+	public void setV(double v) {
 		V = v;
 	}
 	public boolean isIs_on_wall() {
@@ -97,8 +97,8 @@ public class Camera {
     public void cal_projection(Room room) {
     	
 
-    	float length = (float) (this.point.getZ() * Math.tan(this.height_angle));
-    	float width = (float) (this.point.getZ() * Math.tan(this.width_angle));
+    	double length = (double) (this.point.getZ() * Math.tan(this.height_angle));
+    	double width = (double) (this.point.getZ() * Math.tan(this.width_angle));
     	
     	if (this.is_on_ceil) {
     	// tìm hình chiếu khi camera từ trên trần chiếu xuống
@@ -157,14 +157,14 @@ public class Camera {
     }
     
     // volumne of visible area of camera
-    public float volume_visible_area()
+    public double volume_visible_area()
     {
     	Calculation c = new Calculation();
     	System.out.println("hereee ");
     	Plane projection_plane = new Plane(projection.get(0), projection.get(1), projection.get(2));
         System.out.println("is one pyramid");
         if(c.IsInPlane(this.point, projection_plane)){
-            return (float) 0.0;
+            return (double) 0.0;
         }else{
         	// chiều cao nhân diện tích đáy
         	System.out.println("hereee ");

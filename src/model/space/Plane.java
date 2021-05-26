@@ -2,35 +2,35 @@ package model.space;
 
 public class Plane { //Ax+By+Cz+D = 0
     // Cal c = new Cal();
-    private float A;
-    private float B;
-    private float C;
-    private float D;
-    public float getA() {
+    private double A;
+    private double B;
+    private double C;
+    private double D;
+    public double getA() {
         return A;
     }
-    public void setA(float a) {
+    public void setA(double a) {
         A = a;
     }
-    public float getB() {
+    public double getB() {
         return B;
     }
-    public void setB(float b) {
+    public void setB(double b) {
         B = b;
     }
-    public float getC() {
+    public double getC() {
         return C;
     }
-    public void setC(float c) {
+    public void setC(double c) {
         C = c;
     }
-    public float getD() {
+    public double getD() {
         return D;
     }
-    public void setD(float d) {
+    public void setD(double d) {
         D = d;
     }
-    public Plane(float a, float b, float c, float d) {
+    public Plane(double a, double b, double c, double d) {
         A = a;
         B = b;
         C = c;
@@ -51,9 +51,9 @@ public class Plane { //Ax+By+Cz+D = 0
         Vector3D AC = new Vector3D(A,C);
         // Vector3D v = c.DirectedVec(AB,AC);
         
-        float x = AB.getVy()*AC.getVz() - AC.getVy()*AB.getVz();
-        float y = AB.getVz()*AC.getVx() - AC.getVz()*AB.getVx();
-        float z = AB.getVx()*AC.getVy() - AC.getVx()*AB.getVy();
+        double x = AB.getVy()*AC.getVz() - AC.getVy()*AB.getVz();
+        double y = AB.getVz()*AC.getVx() - AC.getVz()*AB.getVx();
+        double z = AB.getVx()*AC.getVy() - AC.getVx()*AB.getVy();
         Vector3D v = new Vector3D(x,y,z);
         Plane P = new Plane(A,v);
         this.A = P.getA();

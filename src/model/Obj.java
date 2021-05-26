@@ -33,7 +33,7 @@ public class Obj  {
     public void setPoint(int index, Point point) throws ArrayIndexOutOfBoundsException{
         this.points[index] = point;
     }
-    public float getHeight(){
+    public double getHeight(){
         return points[4].getZ() - points[0].getZ();
     }
     
@@ -85,9 +85,9 @@ public class Obj  {
             return true;
     }
     public boolean checkInRoom(Room room){
-        float width = room.getWidth();
-        float length = room.getLength();
-        float height = room.getHeight();
+        double width = room.getWidth();
+        double length = room.getLength();
+        double height = room.getHeight();
         for(int i = 0 ; i <= 7 ; i++){
             if(this.points[i].getX() > width || this.points[i].getY() > length)
                 return false;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import exception.CreateRoomException;
+import exception.InvalidCamera;
 import exception.InvalidObject;
 
 import java.io.FileNotFoundException;
@@ -64,7 +65,7 @@ public class RoomModel {
 		this.managerObject = managerObject;
 	}
     
-    public void readfile (String url) throws FileNotFoundException, CreateRoomException, InvalidObject {
+    public void readfile (String url) throws FileNotFoundException, CreateRoomException, InvalidObject, InvalidCamera {
     	String [] lines = new String[100]; // các dòng đọc từ text
         int i = 0; 
         
@@ -122,8 +123,8 @@ public class RoomModel {
             str_point[j].replace("(", "");
             // str_point[j].trim();
             xyz = str_point[j].split(", ");
-            Point[j] = new Point(Float.parseFloat(xyz[0]), Float.parseFloat(xyz[1]), Float.parseFloat(xyz[2]));
-            
+            Point[j] = new Point(Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
+            System.out.print(Point[j].printInfo());
             
         }
         
@@ -162,7 +163,7 @@ public class RoomModel {
                 // str_point[j].trim();
 
                 xyz = str_point[j].split(", ");
-                Point_obj[j] = new Point(Float.parseFloat(xyz[0]), Float.parseFloat(xyz[1]), Float.parseFloat(xyz[2]));
+                Point_obj[j] = new Point(Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
 
 
                 // System.out.println(Point_obj[j].getX() + " " + Point_obj[j].getY() + " " + Point_obj[j].getZ());
@@ -209,12 +210,12 @@ public class RoomModel {
            
             // str_point[j].trim();
             xyz = str_point[0].split(", ");
-            Point p = new Point(Float.parseFloat(xyz[0]), Float.parseFloat(xyz[1]), Float.parseFloat(xyz[2]));
+            Point p = new Point(Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
             
             // str_point[1].trim();
            
-            float w_angle = Float.parseFloat(str_point[1].split("\\s")[1]); 
-            float h_angle = Float.parseFloat(str_point[1].split("\\s")[2]);
+            double w_angle = Double.parseDouble(str_point[1].split("\\s")[1]); 
+            double h_angle = Double.parseDouble(str_point[1].split("\\s")[2]);
 
             camera.setPoint(p);
             camera.setWidth_angle(w_angle);
@@ -242,7 +243,7 @@ public class RoomModel {
     		Camera camera = this.managerCamera.getCameras().get(i);
     		
     		
-    		float v_camera = camera.volume_visible_area();
+    		double v_camera = camera.volume_visible_area();
     		
     		ArrayList<Point> p1 = new ArrayList<Point>();
             ArrayList<Point> p2 = new ArrayList<Point>();
@@ -254,18 +255,18 @@ public class RoomModel {
             p4.add(camera.getProjection().get(3)); p4.add(camera.getProjection().get(0)); p4.add(camera.getPoint());
             
             // thể tích từ điểm tới các mặt bên
-            float v1 = c.Volume_Pyramid(p1, p);
-            float v2 = c.Volume_Pyramid(p2, p);
-            float v3 = c.Volume_Pyramid(p3, p);
-            float v4 = c.Volume_Pyramid(p4, p);
+            double v1 = c.Volume_Pyramid(p1, p);
+            double v2 = c.Volume_Pyramid(p2, p);
+            double v3 = c.Volume_Pyramid(p3, p);
+            double v4 = c.Volume_Pyramid(p4, p);
             
             // thể tích từ điểm tới đáy
-            float v5 = c.Volume_Pyramid(camera.getProjection(), p);
+            double v5 = c.Volume_Pyramid(camera.getProjection(), p);
             
             // tổng thể tích
-            float v_point = v1 + v2 + v3 + v4 + v5;
+            double v_point = v1 + v2 + v3 + v4 + v5;
             // System.out.println(v1 + " " + v2 + " " + v3 + " " + v4 + " "+v5+" "+ vS);
-            if((float) Math.round(v_camera) == (float) Math.round(v_point)){
+            if((double) Math.round(v_camera) == (double) Math.round(v_point)){
             	return true;
             }
     		
@@ -303,13 +304,50 @@ public class RoomModel {
     	return false;
     	
     }
+
     
-    // kiểm tra xem 1 điểm có bị che khuất không , nếu bị che -> true
+    // kiểm tra xem 1 điểm có bị che khuất không , nếu bị che -> true   
     public boolean is_overcast_by_obj(Point point) {
-    	
-    	
-    	return true;
-    	
+        Calculation c = new Calculation();
+        Line AB ; // đường thẳng nối point và camera
+        double h;
+        for(int i =0 ; i < managerCamera.getNum_cams();i ++){
+            for(int j = 0 ; j < managerObject.getNum_objs() ; j++){
+                AB = new Line(point,managerCamera.getCameras().get(i).getPoint());
+                Plane[] planeListOfObj = getPlaneListOfObj(managerObject.getObjects().get(j));
+                for(int k = 0 ; k < planeListOfObj.length; k++){
+                    Point intersectionPoint = c.GetIntPoint(AB,planeListOfObj[k]);
+                    Vector3D MN = new Vector3D(point,intersectionPoint); // vector nối point và giao 
+                    Vector3D MP = new Vector3D(point,managerCamera.getCameras().get(i).getPoint()); // vector noi point vs cam
+                    if(!MN.checkVectorInTheSameDirection(MP))
+                        break;
+                    h = MN.getRatioOfTwoVectors(MP);
+//                    if(is_point_in_obj(intersectionPoint,managerObject.getObjects().get(j)) && (h>0 && h <1));
+//                        return true;
+                    if(is_point_in_obj(intersectionPoint))
+                    	return true;
+                }
+
+            }
+        }
+        return true;
+
+    }
+    private Plane[] getPlaneListOfObj (Obj obj){
+        Plane[] planeListOfObj = new Plane[6];
+        // mặt ABCD
+        planeListOfObj[0] = new Plane(obj.getPoint(0),obj.getPoint(1),obj.getPoint(2));
+        // mặt A1B1C1D1
+        planeListOfObj[1] = new Plane(obj.getPoint(4),obj.getPoint(5),obj.getPoint(6));
+        // mặt A1B1BA
+        planeListOfObj[2] = new Plane(obj.getPoint(4),obj.getPoint(5),obj.getPoint(0));
+        // mặt B1C1CB1
+        planeListOfObj[3] = new Plane(obj.getPoint(1),obj.getPoint(2),obj.getPoint(5));
+        // mặt C1D1DC
+        planeListOfObj[4] = new Plane(obj.getPoint(2),obj.getPoint(3),obj.getPoint(6));
+        // mặt A1D1DA
+        planeListOfObj[5] = new Plane(obj.getPoint(4),obj.getPoint(7),obj.getPoint(3));
+        return planeListOfObj;
     }
     
     
@@ -317,9 +355,9 @@ public class RoomModel {
     
     // tính toán vùng nhìn thấy
     public int visible_area() {
-    	int width = Math.round(this.room.getWidth());
-    	int length = Math.round(this.room.getLength());
-    	int height = Math.round(this.room.getHeight());
+    	int width = (int) Math.round(this.room.getWidth());
+    	int length = (int) Math.round(this.room.getLength());
+    	int height = (int) Math.round(this.room.getHeight());
     	
     	int V = 0;
     	for (int i = 0; i < width; i ++)
