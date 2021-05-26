@@ -13,14 +13,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class showRoom extends JFrame{
+public class ShowRoom extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	JButton btnRoom;
     JButton btnObj;
     JButton btnCamera;
   
-    public showRoom() {
+    public ShowRoom() {
         
         
     }

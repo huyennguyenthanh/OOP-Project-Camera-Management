@@ -241,6 +241,9 @@ public class RoomModel {
     	for (int  i = 0 ; i < this.num_of_camera; i++)
     	{
     		Camera camera = this.managerCamera.getCameras().get(i);
+
+            int n = (int) Math.round(this.room.getWidth()*100);
+            System.out.println("n = " + n);
     		
     		
     		double v_camera = camera.volume_visible_area();
@@ -275,72 +278,38 @@ public class RoomModel {
     }
     
     // true means the point is inside the object
-    public boolean is_point_in_obj_all(Point point) {
+    public boolean is_point_in_obj(Point point) {
     	
     	Calculation c = new Calculation();
     	for (int i = 0; i < this.num_of_obj; i++)
     	{
     		Obj o = this.managerObject.getObjects().get(i);
-    		if (is_point_in_obj(point, o))	
-    			return true;
+    		int check = 0;
+    	
+    		Vector3D m = new Vector3D(o.getPoints()[1], o.getPoints()[0]);
+    		Vector3D n = new Vector3D(o.getPoints()[3], o.getPoints()[0]);
+    		Vector3D p = new Vector3D(o.getPoints()[4], o.getPoints()[0]);
+    		Vector3D q = new Vector3D(point, o.getPoints()[0]);
+    		
+    		
+    		if ((0 <= c.ScalarVec(q, m)) && (c.ScalarVec(q, m) <= c.ScalarVec(m, m)))
+    			check += 1;
+    		if ((0 <= c.ScalarVec(q, n)) && (c.ScalarVec(q, n) <= c.ScalarVec(n, n)))
+    			check += 1;
+    		if ((0 <= c.ScalarVec(q, p)) && (c.ScalarVec(q, p) <= c.ScalarVec(p, p)))
+    			check += 1;
+    		
+    		// điểm nằm trong vật
+    		if (check == 3)
+    			return true;	
     	}
     	
     	return false;
     	
     }
-    private boolean is_point_in_obj(Point point, Obj o)
-    {
-    	Calculation c = new Calculation();
-    	int check = 0;
-    	
-		Vector3D m = new Vector3D(o.getPoints()[1], o.getPoints()[0]);
-		Vector3D n = new Vector3D(o.getPoints()[3], o.getPoints()[0]);
-		Vector3D p = new Vector3D(o.getPoints()[4], o.getPoints()[0]);
-		Vector3D q = new Vector3D(point, o.getPoints()[0]);
-		
-		
-		if ((0 <= c.ScalarVec(q, m)) && (c.ScalarVec(q, m) <= c.ScalarVec(m, m)))
-			check += 1;
-		if ((0 <= c.ScalarVec(q, n)) && (c.ScalarVec(q, n) <= c.ScalarVec(n, n)))
-			check += 1;
-		if ((0 <= c.ScalarVec(q, p)) && (c.ScalarVec(q, p) <= c.ScalarVec(p, p)))
-			check += 1;
-		if (check == 3)
-			return true;
-		return false;
-    	
-    }
 
     
-//    // kiểm tra xem 1 điểm có bị che khuất không , nếu bị che -> true   
-//    public boolean is_overcast_by_obj(Point point) {
-//        Calculation c = new Calculation();
-//        Line AB ; // đường thẳng nối point và camera
-//        double h;
-//        for(int i =0 ; i < managerCamera.getNum_cams();i ++){
-//            for(int j = 0 ; j < managerObject.getNum_objs() ; j++){
-//                AB = new Line(point,managerCamera.getCameras().get(i).getPoint());
-//                Plane[] planeListOfObj = getPlaneListOfObj(managerObject.getObjects().get(j));
-//                for(int k = 0 ; k < planeListOfObj.length; k++){
-//                    Point intersectionPoint = c.GetIntPoint(AB,planeListOfObj[k]);
-//                    if (intersectionPoint == null)
-//                    	return false;
-//                    Vector3D MN = new Vector3D(point,intersectionPoint); // vector nối point và giao 
-//                    Vector3D MP = new Vector3D(point,managerCamera.getCameras().get(i).getPoint()); // vector noi point vs cam
-//                    if(!MN.checkVectorInTheSameDirection(MP))
-//                        break;
-//                    h = MN.getRatioOfTwoVectors(MP);
-////                    if(is_point_in_obj(intersectionPoint,managerObject.getObjects().get(j)) && (h>0 && h <1));
-////                        return true;
-//                    if(is_point_in_obj(intersectionPoint))
-//                    	return true;
-//                }
-//
-//            }
-//        }
-//        return true;
-//
-//    }
+    // kiểm tra xem 1 điểm có bị che khuất không , nếu bị che -> true   
     public boolean is_overcast_by_obj(Point point) {
         Calculation c = new Calculation();
         Line AB ; // đường thẳng nối point và camera
@@ -351,23 +320,21 @@ public class RoomModel {
                 Plane[] planeListOfObj = getPlaneListOfObj(managerObject.getObjects().get(j));
                 for(int k = 0 ; k < planeListOfObj.length; k++){
                     Point intersectionPoint = c.GetIntPoint(AB,planeListOfObj[k]);
-                    if(intersectionPoint == null)
-                        continue;
-                    if(!is_point_in_obj(intersectionPoint,managerObject.getObjects().get(j))){
-                        continue;
-                    }
-                    Vector3D MN = new Vector3D(point,intersectionPoint); // vector nối point và giao
+                    Vector3D MN = new Vector3D(point,intersectionPoint); // vector nối point và giao 
                     Vector3D MP = new Vector3D(point,managerCamera.getCameras().get(i).getPoint()); // vector noi point vs cam
-                    if(!MN.checkVectorInTheSameDirection(MP)){
-                        continue;
-                    }
+                    if(!MN.checkVectorInTheSameDirection(MP))
+                        break;
                     h = MN.getRatioOfTwoVectors(MP);
-                    if(h>0 && h <1);
-                        return true;
+//                    if(is_point_in_obj(intersectionPoint,managerObject.getObjects().get(j)) && (h>0 && h <1));
+//                        return true;
+                    if(is_point_in_obj(intersectionPoint))
+                    	return true;
                 }
+
             }
         }
         return false;
+
     }
     private Plane[] getPlaneListOfObj (Obj obj){
         Plane[] planeListOfObj = new Plane[6];
@@ -393,7 +360,7 @@ public class RoomModel {
     // nếu một điểm là nhìn thấy return true
     private boolean is_point_visible(Point point)
     {
-    	if (is_point_in_obj_all(point))
+    	if (is_point_in_obj(point))
     	{
     		return false;
     	}
@@ -439,7 +406,7 @@ public class RoomModel {
     public int [][] projection_left_to_right(){
     	int m = (int) Math.round(this.room.getLength());
     	int n = (int) Math.round(this.room.getHeight());
-
+        
 		int [][] projection =  new int[m + 1][n + 1];
 		
 		for (int i = 0; i < m; i ++)
@@ -463,7 +430,26 @@ public class RoomModel {
     // 1 là nhìn thấy, 0 là không nhìn thấy
     public int [][] projection_right_to_left(){
     	// Code here
-		return null;
+        int m = (int) Math.round(this.room.getLength());
+    	int n = (int) Math.round(this.room.getHeight());
+
+		int [][] projection =  new int[m + 1][n + 1];
+		
+		for (int i = 0; i < m; i ++)
+    	{
+    		for (int j = 0; j < n; j++)
+    		{
+    			Point point = new Point((int)(this.room.getWidth()), i, j); // <--
+    			if (is_point_visible(point))
+    				projection[i][j] = 1;
+    			else 
+    				projection[i][j] = 0;
+    				
+    		}
+    	}
+		return projection;
+
+		// return null;
     }
     
  
@@ -471,32 +457,98 @@ public class RoomModel {
     // 1 là nhìn thấy, 0 là không nhìn thấy
     public int [][] projection_top_to_bottom(){
     	// Code here
-		return null;
+        int m = (int) Math.round(this.room.getLength());
+    	int n = (int) Math.round(this.room.getWidth());
+
+		int [][] projection =  new int[m + 1][n + 1];
+		
+		for (int i = 0; i < m; i ++)
+    	{
+    		for (int j = 0; j < n; j++)
+    		{
+    			Point point = new Point(i, j, 0);
+    			if (is_point_visible(point))
+    				projection[i][j] = 1;
+    			else 
+    				projection[i][j] = 0;
+    				
+    		}
+    	}
+		return projection;
+		// return null;
     }
  
     // tính hình chiếu từ dưới lên trên ABCD
     // 1 là nhìn thấy, 0 là không nhìn thấy
     public int [][] projection_bottom_to_top(){
     	// Code here
-		return null;
+        int m = (int) Math.round(this.room.getLength());
+    	int n = (int) Math.round(this.room.getWidth());
+
+		int [][] projection =  new int[m + 1][n + 1];
+		
+		for (int i = 0; i < m; i ++)
+    	{
+    		for (int j = 0; j < n; j++)
+    		{
+    			Point point = new Point(i, j, (int)(this.room.getHeight()));
+    			if (is_point_visible(point))
+    				projection[i][j] = 1;
+    			else 
+    				projection[i][j] = 0;
+    				
+    		}
+    	}
+		return projection;
+		// return null;
     }
  
     // tính hình chiếu từ trước về sau CDD1C1
     // 1 là nhìn thấy, 0 là không nhìn thấy
     public int [][] projection_front_to_back(){
     	// Code here
-		return null;
+        int m = (int) Math.round(this.room.getWidth());
+    	int n = (int) Math.round(this.room.getHeight());
+
+		int [][] projection =  new int[m + 1][n + 1];
+		
+		for (int i = 0; i < m; i ++)
+    	{
+    		for (int j = 0; j < n; j++)
+    		{
+    			Point point = new Point(i, 0, j);
+    			if (is_point_visible(point))
+    				projection[i][j] = 1;
+    			else 
+    				projection[i][j] = 0;
+    				
+    		}
+    	}
+		return projection;
+		// return null;
     }
     // tính hình chiếu từ sau ra trưóc ABB1A1
     // 1 là nhìn thấy, 0 là không nhìn thấy
     public int [][] projection_back_to_front(){
+        int m = (int) Math.round(this.room.getWidth());
+    	int n = (int) Math.round(this.room.getHeight());
+
+		int [][] projection =  new int[m + 1][n + 1];
+		
+		for (int i = 0; i < m; i ++)
+    	{
+    		for (int j = 0; j < n; j++)
+    		{
+    			Point point = new Point(i, (int)(this.room.getLength()),j);
+    			if (is_point_visible(point))
+    				projection[i][j] = 1;
+    			else 
+    				projection[i][j] = 0;
+    				
+    		}
+    	}
+		return projection;
     	// Code here
-		return null;
+		// return null;
     }
-    
-    
-    
-
-
-
 }

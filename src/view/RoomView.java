@@ -86,7 +86,7 @@ public class RoomView{
 			public void actionPerformed (ActionEvent e) {	
 			
 					try {
-						showRoom s = new showRoom();
+						ShowRoom s = new ShowRoom();
 						s.createAndShow(roomModel);
 						
 						
@@ -116,7 +116,7 @@ public class RoomView{
 		viewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new showRoomProjection(roomModel);
+				new ShowRoomProjection(roomModel);
 			}
 		});
 		frame.add(viewButton);

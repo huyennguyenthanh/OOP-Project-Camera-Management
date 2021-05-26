@@ -97,8 +97,9 @@ public class Camera {
     public void cal_projection(Room room) {
     	
 
-    	double length = (double) (this.point.getZ() * Math.tan(this.height_angle*Math.PI/180));
-    	double width = (double) (this.point.getZ() * Math.tan(this.width_angle*Math.PI/180));
+    	double length = (double) (this.point.getZ() * Math.tan(this.height_angle*Math.PI/360));
+    	double width = (double) (this.point.getZ() * Math.tan(this.width_angle*Math.PI/360));
+
     	
     	if (this.is_on_ceil) {
     	// tìm hình chiếu khi camera từ trên trần chiếu xuống

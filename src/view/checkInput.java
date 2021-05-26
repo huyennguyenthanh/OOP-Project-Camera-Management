@@ -50,7 +50,6 @@ public class checkInput {
 		zText.setLocation(200, 220);
 		frame.add(zText);
 		
-		JTextArea text = new JTextArea();
 		JButton b = new JButton("Check");
 		b.setSize(100, 40);
 		b.setLocation(150, 280);
@@ -68,13 +67,16 @@ public class checkInput {
 					
 					String data = null;
 					Point point = new Point(x,y,z);
-					System.out.print("Điểm: " + point.printInfo());
 					
-					//data = "abcbccb";
+					data = "abcbccb";
 					
+					boolean check1 = roomModel.is_point_in_obj(point);
+					System.out.print("\nIs in obj : " + check1);
+					boolean check2 = roomModel.is_point_in_cam(point);
+					System.out.print("\nIs in cam : " + check2);
 					
-					
-					
+					boolean check3 = roomModel.is_overcast_by_obj(point);
+					System.out.print("\nis overcast :" +  check3);
 					
 					
 
@@ -94,11 +96,7 @@ public class checkInput {
 //								+ "Không bị che khuất bởi vật khác\n"
 //								+ "Không trong vùng nhìn thấy của bất kì camera nào.\n";
 //					}
-					try {
-						
 					
-					boolean check1 = roomModel.is_point_in_obj_all(point);
-					System.out.print("\nIs in obj : " + check1);
 					if (check1)
 					{
 						data = "Điểm nằm trong object. Không thể thấy điểm.\n";
@@ -108,44 +106,32 @@ public class checkInput {
 						data = "Điểm không nằm trong object nào";
 					}
 					
-					boolean check2 = roomModel.is_point_in_cam(point);
-					System.out.print("\nIs in cam : " + check2);
 					if (check2)
 					{
-						data += "Điểm nằm trong vùng nhìn thấy của cam.\n";
+						data = "Điểm nằm trong vùng nhìn thấy của cam.\n";
 					}						
 					else 
 					{
-						data += "Điểm nằm không nằm trong vùng nhìn thấy của cam.\n";
+						data = "Điểm nằm không nằm trong vùng nhìn thấy của cam.\n";
 					}
 					
-
-					boolean check3 = roomModel.is_overcast_by_obj(point);
-					System.out.print("\nis overcast :" +  check3);
 					if (check3)
 					{
-						data += "Điểm bị chắn bởi vật\n";
+						data = "Điểm bị chắn bởi vật\n";
 					}
 					else
 					{
-						data += "Điểm Không bị che khuất bởi vật khác\n";
+						data = "Điểm Không bị che khuất bởi vật khác\n";
 					}
 					
 	
 					
-					
-					}
-					catch (Exception ex)
-					{
-						
-					}
 					System.out.print(data);
 					status.setText(data);
 
 				}else {
 					String data = "Please input before!";
 					status.setText(data);
-					text.insert(data, 0);;
 				}
 			}
 		});
@@ -153,10 +139,7 @@ public class checkInput {
 		
 		status.setSize(200, 100);
 		status.setLocation(50, 320);
-		//frame.add(status);
-		frame.add(text);
-		text.setSize(200, 100);
-		text.setLocation(50, 320);
+		frame.add(status);
 		
 		frame.setVisible(true);
 	}
