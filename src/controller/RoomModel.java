@@ -275,38 +275,72 @@ public class RoomModel {
     }
     
     // true means the point is inside the object
-    public boolean is_point_in_obj(Point point) {
+    public boolean is_point_in_obj_all(Point point) {
     	
     	Calculation c = new Calculation();
     	for (int i = 0; i < this.num_of_obj; i++)
     	{
     		Obj o = this.managerObject.getObjects().get(i);
-    		int check = 0;
-    	
-    		Vector3D m = new Vector3D(o.getPoints()[1], o.getPoints()[0]);
-    		Vector3D n = new Vector3D(o.getPoints()[3], o.getPoints()[0]);
-    		Vector3D p = new Vector3D(o.getPoints()[4], o.getPoints()[0]);
-    		Vector3D q = new Vector3D(point, o.getPoints()[0]);
-    		
-    		
-    		if ((0 <= c.ScalarVec(q, m)) && (c.ScalarVec(q, m) <= c.ScalarVec(m, m)))
-    			check += 1;
-    		if ((0 <= c.ScalarVec(q, n)) && (c.ScalarVec(q, n) <= c.ScalarVec(n, n)))
-    			check += 1;
-    		if ((0 <= c.ScalarVec(q, p)) && (c.ScalarVec(q, p) <= c.ScalarVec(p, p)))
-    			check += 1;
-    		
-    		// điểm nằm trong vật
-    		if (check == 3)
-    			return true;	
+    		if (is_point_in_obj(point, o))	
+    			return true;
     	}
     	
     	return false;
     	
     }
+    private boolean is_point_in_obj(Point point, Obj o)
+    {
+    	Calculation c = new Calculation();
+    	int check = 0;
+    	
+		Vector3D m = new Vector3D(o.getPoints()[1], o.getPoints()[0]);
+		Vector3D n = new Vector3D(o.getPoints()[3], o.getPoints()[0]);
+		Vector3D p = new Vector3D(o.getPoints()[4], o.getPoints()[0]);
+		Vector3D q = new Vector3D(point, o.getPoints()[0]);
+		
+		
+		if ((0 <= c.ScalarVec(q, m)) && (c.ScalarVec(q, m) <= c.ScalarVec(m, m)))
+			check += 1;
+		if ((0 <= c.ScalarVec(q, n)) && (c.ScalarVec(q, n) <= c.ScalarVec(n, n)))
+			check += 1;
+		if ((0 <= c.ScalarVec(q, p)) && (c.ScalarVec(q, p) <= c.ScalarVec(p, p)))
+			check += 1;
+		if (check == 3)
+			return true;
+		return false;
+    	
+    }
 
     
-    // kiểm tra xem 1 điểm có bị che khuất không , nếu bị che -> true   
+//    // kiểm tra xem 1 điểm có bị che khuất không , nếu bị che -> true   
+//    public boolean is_overcast_by_obj(Point point) {
+//        Calculation c = new Calculation();
+//        Line AB ; // đường thẳng nối point và camera
+//        double h;
+//        for(int i =0 ; i < managerCamera.getNum_cams();i ++){
+//            for(int j = 0 ; j < managerObject.getNum_objs() ; j++){
+//                AB = new Line(point,managerCamera.getCameras().get(i).getPoint());
+//                Plane[] planeListOfObj = getPlaneListOfObj(managerObject.getObjects().get(j));
+//                for(int k = 0 ; k < planeListOfObj.length; k++){
+//                    Point intersectionPoint = c.GetIntPoint(AB,planeListOfObj[k]);
+//                    if (intersectionPoint == null)
+//                    	return false;
+//                    Vector3D MN = new Vector3D(point,intersectionPoint); // vector nối point và giao 
+//                    Vector3D MP = new Vector3D(point,managerCamera.getCameras().get(i).getPoint()); // vector noi point vs cam
+//                    if(!MN.checkVectorInTheSameDirection(MP))
+//                        break;
+//                    h = MN.getRatioOfTwoVectors(MP);
+////                    if(is_point_in_obj(intersectionPoint,managerObject.getObjects().get(j)) && (h>0 && h <1));
+////                        return true;
+//                    if(is_point_in_obj(intersectionPoint))
+//                    	return true;
+//                }
+//
+//            }
+//        }
+//        return true;
+//
+//    }
     public boolean is_overcast_by_obj(Point point) {
         Calculation c = new Calculation();
         Line AB ; // đường thẳng nối point và camera
@@ -317,21 +351,23 @@ public class RoomModel {
                 Plane[] planeListOfObj = getPlaneListOfObj(managerObject.getObjects().get(j));
                 for(int k = 0 ; k < planeListOfObj.length; k++){
                     Point intersectionPoint = c.GetIntPoint(AB,planeListOfObj[k]);
-                    Vector3D MN = new Vector3D(point,intersectionPoint); // vector nối point và giao 
+                    if(intersectionPoint == null)
+                        continue;
+                    if(!is_point_in_obj(intersectionPoint,managerObject.getObjects().get(j))){
+                        continue;
+                    }
+                    Vector3D MN = new Vector3D(point,intersectionPoint); // vector nối point và giao
                     Vector3D MP = new Vector3D(point,managerCamera.getCameras().get(i).getPoint()); // vector noi point vs cam
-                    if(!MN.checkVectorInTheSameDirection(MP))
-                        break;
+                    if(!MN.checkVectorInTheSameDirection(MP)){
+                        continue;
+                    }
                     h = MN.getRatioOfTwoVectors(MP);
-//                    if(is_point_in_obj(intersectionPoint,managerObject.getObjects().get(j)) && (h>0 && h <1));
-//                        return true;
-                    if(is_point_in_obj(intersectionPoint))
-                    	return true;
+                    if(h>0 && h <1);
+                        return true;
                 }
-
             }
         }
-        return true;
-
+        return false;
     }
     private Plane[] getPlaneListOfObj (Obj obj){
         Plane[] planeListOfObj = new Plane[6];
@@ -357,7 +393,7 @@ public class RoomModel {
     // nếu một điểm là nhìn thấy return true
     private boolean is_point_visible(Point point)
     {
-    	if (is_point_in_obj(point))
+    	if (is_point_in_obj_all(point))
     	{
     		return false;
     	}
