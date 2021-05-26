@@ -75,7 +75,7 @@ public class showEachProjection extends JFrame  {
 		 SmileyApp smiley = new SmileyApp(hc);
 	
 		this.setVisible(true);
-		this.setSize(1400, 800);
+		this.setSize(1000, 1000);
 	
 		this.setLocationRelativeTo(null);
 		
@@ -88,13 +88,16 @@ class SmileyApp extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	Color background_cl1 = Color.white;
-	Color background_cl2 = Color.darkGray;
+	Color background_cl2 = Color.BLACK;
 	
 	int column, row;	
-	int hc[][];
+	int hc[][] = new int[1000][1000];
 	
 	public SmileyApp(int [][] hc) {
-		this.hc = hc;
+		//this.hc = hc;
+		for (int i = 0; i < 1000; i++)
+			for (int j = 0; j < 1000; j++)
+				this.hc[i][j] = getRandomNumber(0, 1);
 		
 	}
 
@@ -110,7 +113,7 @@ class SmileyApp extends JPanel {
 			for (int i = 0; i < this.hc.length; i++)
 				for (int j = 0; j < this.hc[i].length; j++) 
 				{
-					if (this.hc[j][i]==1)
+					if (this.hc[j][i]==0)
 					{
 					g.setColor(background_cl2);
 					
@@ -121,4 +124,9 @@ class SmileyApp extends JPanel {
 				}
 		
 	 }
+	 
+	 public int getRandomNumber(int min, int max) {
+		    return (int) ((Math.random() * (max - min)) + min);
+		}
+
 }

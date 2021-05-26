@@ -71,7 +71,7 @@ public class Calculation {
             }else{
             	// chiều cao nhân cạnh đáy hình chữ nhật
                 //System.out.println(GetQuaAre(p));
-                return PointToPlane(S,P)*Area_Triangle(p)/3;
+                return PointToPlane(S,P)*Area_Quadrilateral(p)/3;
             }
         }
     }

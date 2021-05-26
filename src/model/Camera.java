@@ -97,14 +97,14 @@ public class Camera {
     public void cal_projection(Room room) {
     	
 
-    	double length = (double) (this.point.getZ() * Math.tan(this.height_angle*Math.PI/360));
-    	double width = (double) (this.point.getZ() * Math.tan(this.width_angle*Math.PI/360));
-
+    	double length = (double) Math.round(this.point.getZ() * Math.tan(this.height_angle*Math.PI/360));
+    	double width = (double) Math.round(this.point.getZ() * Math.tan(this.width_angle*Math.PI/360));
     	
     	if (this.is_on_ceil) {
     	// tìm hình chiếu khi camera từ trên trần chiếu xuống
     	// center of projection
     	Point center_point = new Point(this.point.getX(), this.point.getY(), 0);
+    	//System.out.print("\nlength và width :"+ length +" "+  width);
     	
     	// 4 đỉnh của hình chiếu camera trên mặt đất
     	this.projection.add(new Point(center_point.getX() - length, center_point.getY() - width, 0)); //A
@@ -161,21 +161,21 @@ public class Camera {
     public double volume_visible_area()
     {
     	Calculation c = new Calculation();
-    	System.out.println("hereee ");
+    	//System.out.println("hereee ");
     	Plane projection_plane = new Plane(projection.get(0), projection.get(1), projection.get(2));
-        System.out.println("is one pyramid");
+        //System.out.println("is one pyramid");
         if(c.IsInPlane(this.point, projection_plane)){
             return (double) 0.0;
         }else{
         	// chiều cao nhân diện tích đáy
-        	System.out.println("hereee ");
+        	//System.out.println("hereee ");
         	return c.PointToPlane(this.point,projection_plane)*c.Area_Quadrilateral(this.projection)/3;
         }
     }
     
     public String printInfo()
     {
-    	String str = "";
+    	String str = "\n";
     	str += "("
                 + this.getPoint().getX()/100 + ", "
                 + this.getPoint().getY()/100 + ", "
@@ -186,6 +186,18 @@ public class Camera {
     		str += "Camera gắn trên trần.\n\n";
     	else if (this.is_on_wall)
     		str += "Camera gắn trên tường.\n\n";
+    	return str;
+    }
+    
+    public String printInfoProjection() {
+    	String str = "\nHình chiếu camera: ";
+    	for (int i = 0; i < 4; i++)
+    	{
+    		str += "(" + this.projection.get(i).getX() + ", "
+    				+  this.projection.get(i).getY() + ", "
+    						+ this.projection.get(i).getZ() + ")\n";
+    	}
+    	
     	return str;
     }
     
