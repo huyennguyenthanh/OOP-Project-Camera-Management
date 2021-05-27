@@ -4,9 +4,9 @@ package view;
 import java.awt.event.*;
 import javax.swing.*;
 
-import controller.RoomModel;
-public class showRoomProjection {
-	public showRoomProjection(RoomModel roomModel) {
+import model.RoomModel;
+public class ShowRoomProjection {
+	public ShowRoomProjection(RoomModel roomModel) {
 		JFrame frame = new JFrame("Show View");
 		frame.setSize(500, 600);
 		frame.setLayout(null);
@@ -25,7 +25,7 @@ public class showRoomProjection {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				//goi ham show hinh chieu
-				new showEachProjection(roomModel.projection_top_to_bottom());
+				new ShowEachProjection(roomModel.projection_top_to_bottom());
 			}
 		});
 		frame.add(b1);
@@ -39,7 +39,7 @@ public class showRoomProjection {
 			public void actionPerformed(ActionEvent e) {	
 				frame.setVisible(false);
 				//goi ham show hinh chieu
-				new showEachProjection(roomModel.projection_right_to_left());
+				new ShowEachProjection(roomModel.projection_right_to_left());
 			}
 		});
 		frame.add(b2);
@@ -53,7 +53,7 @@ public class showRoomProjection {
 			public void actionPerformed(ActionEvent e) {	
 				frame.setVisible(false);
 				//goi ham show hinh chieu
-				new showEachProjection(roomModel.projection_left_to_right());
+				new ShowEachProjection(roomModel.projection_left_to_right());
 			}
 		});
 		frame.add(b3);
@@ -67,7 +67,7 @@ public class showRoomProjection {
 			public void actionPerformed(ActionEvent e) {	
 				frame.setVisible(false);
 				//goi ham show hinh chieu
-				new showEachProjection(roomModel.projection_front_to_back());
+				new ShowEachProjection(roomModel.projection_front_to_back());
 			}
 		});
 		frame.add(b4);
@@ -81,7 +81,7 @@ public class showRoomProjection {
 			public void actionPerformed(ActionEvent e) {	
 				frame.setVisible(false);
 				//goi ham show hinh chieu
-				new showEachProjection(roomModel.projection_back_to_front());
+				new ShowEachProjection(roomModel.projection_back_to_front());
 			}
 		});
 		frame.add(b5);
@@ -95,7 +95,7 @@ public class showRoomProjection {
 			public void actionPerformed(ActionEvent e) {	
 				frame.setVisible(false);
 				//goi ham show hinh chieu
-				new showEachProjection(roomModel.projection_bottom_to_top());
+				new ShowEachProjection(roomModel.projection_bottom_to_top());
 			}
 		});
 		frame.add(b6);

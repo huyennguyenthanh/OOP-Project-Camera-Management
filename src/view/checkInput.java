@@ -2,13 +2,13 @@ package view;
 
 import javax.swing.*;
 
-import controller.RoomModel;
+import model.RoomModel;
 import model.space.Point;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-public class checkInput {
-	public checkInput(RoomModel roomModel) {
+public class CheckInput {
+	public CheckInput(RoomModel roomModel) {
 		JLabel status = new JLabel("");
 		
 		JFrame frame = new JFrame("Input pointer");

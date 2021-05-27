@@ -1,10 +1,12 @@
 package view;
 
 import javax.swing.*;
+
+
 import java.awt.*;
 
 
-public class showEachProjection extends JFrame  {
+public class ShowEachProjection extends JFrame  {
 
 //	private static final long serialVersionUID = 1L;
 //	Color background_cl1 = Color.white;
@@ -71,9 +73,9 @@ public class showEachProjection extends JFrame  {
 
 	private static final long serialVersionUID = 1L;
 
-	public showEachProjection(int [][] hc) {
+	public ShowEachProjection(int [][] hc) {
 		 SmileyApp smiley = new SmileyApp(hc);
-	
+		// smiley.setHc(hc);
 		this.setVisible(true);
 		this.setSize(1000, 1000);
 	
@@ -91,17 +93,17 @@ class SmileyApp extends JPanel {
 	Color background_cl2 = Color.BLACK;
 	
 	int column, row;	
-	int hc[][] = new int[1000][1000];
+	int hc[][];
 	
-	public SmileyApp(int [][] hc) {
-		//this.hc = hc;
-		for (int i = 0; i < 1000; i++)
-			for (int j = 0; j < 1000; j++)
-			{
+	public SmileyApp(int[][] hc) {
+		this.hc = hc;
+		// for (int i = 0; i < hcc.length; i++)
+		// 	for (int j = 0; j < hcc[0].length; j++)
+		// 	{
 				
-				this.hc[i][j] = getRandomNumber(0, 1);
-				System.out.print(this.hc[i][j]);
-			}
+		// 		this.hc[i][j] = hcc[i][j];
+		// 		// System.out.print(this.hc[i][j]);
+		// 	}
 				
 		
 	}
@@ -116,9 +118,9 @@ class SmileyApp extends JPanel {
 	    	
 	    	
 			for (int i = 0; i < this.hc.length; i++)
-				for (int j = 0; j < this.hc[i].length; j++) 
+				for (int j = 0; j < this.hc[0].length; j++) 
 				{
-					if (this.hc[j][i]==0)
+					if (this.hc[i][j]==0)
 					{
 					g.setColor(background_cl2);
 					

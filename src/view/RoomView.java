@@ -8,10 +8,10 @@ import java.io.FileNotFoundException;
 
 import javax.swing.*;
 
-import controller.RoomModel;
 import exception.CreateRoomException;
 import exception.InvalidCamera;
 import exception.InvalidObject;
+import model.RoomModel;
 
 
 public class RoomView{ 
@@ -86,7 +86,7 @@ public class RoomView{
 			public void actionPerformed (ActionEvent e) {	
 			
 					try {
-						showRoom s = new showRoom();
+						ShowRoom s = new ShowRoom();
 						s.createAndShow(roomModel);
 						
 						
@@ -105,7 +105,7 @@ public class RoomView{
 		inputButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {	
-				new checkInput(roomModel);
+				new CheckInput(roomModel);
 			}
 		});
 		frame.add(inputButton);
@@ -116,7 +116,7 @@ public class RoomView{
 		viewButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new showRoomProjection(roomModel);
+				new ShowRoomProjection(roomModel);
 			}
 		});
 		frame.add(viewButton);
