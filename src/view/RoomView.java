@@ -8,10 +8,10 @@ import java.io.FileNotFoundException;
 
 import javax.swing.*;
 
+import controller.RoomModel;
 import exception.CreateRoomException;
 import exception.InvalidCamera;
 import exception.InvalidObject;
-import model.RoomModel;
 
 
 public class RoomView{ 

@@ -1,15 +1,13 @@
 package view;
 
 
-// Tạo class Point có thuộc tính x, y, z
-
-import model.RoomModel;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+import controller.RoomModel;
 
 public class ShowRoom extends JFrame{
 

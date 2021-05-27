@@ -2,7 +2,7 @@ package view;
 
 import javax.swing.*;
 
-import model.RoomModel;
+import controller.RoomModel;
 import model.space.Point;
 
 import java.awt.event.ActionEvent;

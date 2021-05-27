@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import exception.*;
+import model.*;
 import model.Obj;
-import model.Room;
 import model.space.Point;
 import model.space.Vector2D;
 
@@ -40,7 +40,7 @@ public class ManagerObject {
     }
 	
 	
-    public void addObject (Obj object,Room room) throws InvalidObject {
+    public void addObject (Obj object, Room room) throws InvalidObject {
         if(checkInRoom(room,object)){
             if(checkRectangularBox(object)){
                 if(checkOverlapObject(object))

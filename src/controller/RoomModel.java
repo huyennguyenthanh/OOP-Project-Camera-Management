@@ -5,13 +5,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import exception.CreateRoomException;
 import exception.InvalidCamera;
 import exception.InvalidObject;
 
 import java.io.FileNotFoundException;
 
-import model.*;
+import model.Camera;
+import model.Obj;
+import model.Room;
 import model.space.*;
 
 
@@ -118,6 +122,7 @@ public class RoomModel {
             }
         }
 
+        
         String [] xyz;
         for(int j=0 ; j<8 ; j++) {
             str_point[j].replace("(", "");
@@ -127,8 +132,13 @@ public class RoomModel {
             System.out.print(Point[j].printInfo());
             
         }
-        
+        try {
         this.room = new Room (Point);
+        }catch (CreateRoomException e)
+        {
+        	
+        	JOptionPane.showMessageDialog(null, e.getMessage(),"Warning",JOptionPane.ERROR_MESSAGE);
+        }
         // --------------------------------------------------------------------------------------
         // tách lấy 8 đỉnh của vật thể
         
@@ -173,7 +183,12 @@ public class RoomModel {
             Obj obj = new Obj(Point_obj);
             
 
+            try {
             this.managerObject.addObject(obj, room);
+            }catch (InvalidObject e)
+            {
+            	JOptionPane.showMessageDialog(null, e.getMessage(),"Warning",JOptionPane.ERROR_MESSAGE);
+            }
 
         }
                 
@@ -221,7 +236,13 @@ public class RoomModel {
             camera.setWidth_angle(w_angle);
             camera.setHeight_angle(h_angle);
 
-            this.managerCamera.addCamera(camera, room);
+            try {
+            	this.managerCamera.addCamera(camera, room);
+            } catch (InvalidCamera e){
+            	JOptionPane.showMessageDialog(null, e.getMessage(),"Warning",JOptionPane.ERROR_MESSAGE);
+            	
+            }
+            
 
 
                 // manage Camera add thêm camera ( kiểm tra điều kiện vị trí )
@@ -436,26 +457,27 @@ public class RoomModel {
     		
     		}
     		if (i%10 == 0)
-    			System.out.print("\nLoading: " + i/width*100 + "%");
+    			System.out.print("\nLoading:  " + i + "/" + width + "");
     	}
+    	
+    	System.out.print("\nLoading: 100% \n");
     	
     	return V;
 
     }
-    
-    // tính hình chiếu từ trái sang phải ADD1A1
+ // tính hình chiếu từ trái sang phải ADD1A1
     // 1 là nhìn thấy, 0 là không nhìn thấy
     public int [][] projection_left_to_right(){
     	int m = (int) Math.round(this.room.getLength());
     	int n = (int) Math.round(this.room.getHeight());
 
-		int [][] projection =  new int[m + 1][n + 1];
+		int [][] projection =  new int[m+1][n+1];
 		
 		for (int i = 0; i < m; i ++)
     	{
     		for (int j = 0; j < n; j++)
     		{
-    			Point point = new Point(0, i, j);
+    			Point point = new Point(this.room.getWidth(), (double) i, (double) j);
     			if (is_point_visible(point))
     				projection[i][j] = 1;
     			else 
@@ -463,6 +485,8 @@ public class RoomModel {
     				
     		}
     	}
+
+		
 		return projection;
 
     }
@@ -481,7 +505,7 @@ public class RoomModel {
     	{
     		for (int j = 0; j < n; j++)
     		{
-    			Point point = new Point((int)(this.room.getWidth()), i, j); // <--
+    			Point point = new Point(0, (double) i, (double) j); // <--
     			if (is_point_visible(point))
     				projection[i][j] = 1;
     			else 
@@ -506,7 +530,7 @@ public class RoomModel {
     	{
     		for (int j = 0; j < n; j++)
     		{
-    			Point point = new Point(i, j, (int)(this.room.getHeight()));
+    			Point point = new Point((double) j, (double) i, 0);
     			if (is_point_visible(point))
     				projection[i][j] = 1;
     			else 
@@ -531,7 +555,7 @@ public class RoomModel {
     	{
     		for (int j = 0; j < n; j++)
     		{
-    			Point point = new Point(i, j, 0);
+    			Point point = new Point((double) j, (double) i, 0);
     			if (is_point_visible(point))
     				projection[i][j] = 1;
     			else 
@@ -555,7 +579,7 @@ public class RoomModel {
     	{
     		for (int j = 0; j < n; j++)
     		{
-    			Point point = new Point(i, 0, j);
+    			Point point = new Point((double) i, 0, (double) j);
     			if (is_point_visible(point))
     				projection[i][j] = 1;
     			else 
@@ -579,7 +603,7 @@ public class RoomModel {
     	{
     		for (int j = 0; j < n; j++)
     		{
-    			Point point = new Point(i, (int)(this.room.getLength()),j);
+    			Point point = new Point((double) i, this.room.getLength(), (double)j);
     			if (is_point_visible(point))
     				projection[i][j] = 1;
     			else 
@@ -590,6 +614,165 @@ public class RoomModel {
 		return projection;
 		
     }
+    
+//    // tính hình chiếu từ trái sang phải ADD1A1
+//    // 1 là nhìn thấy, 0 là không nhìn thấy
+//    public int [][] projection_left_to_right(){
+//    	int m = (int) Math.round(this.room.getLength());
+//    	int n = (int) Math.round(this.room.getHeight());
+//
+//		int [][] projection =  new int[m][n];
+//		
+//		for (int i = 0; i < m; i ++)
+//    	{
+//    		for (int j = 0; j < n; j++)
+//    		{
+//    			Point point = new Point(0.0, (double) i, (double) j);
+//    			if (is_point_visible(point))
+//    				projection[i][j] = 1;
+//    			else 
+//    				projection[i][j] = 0;
+//    				
+//    		}
+//    	}
+//		
+//		
+//		return projection;
+//
+//    }
+//    
+// 
+//    // tính hình chiếu từ phải sang trái BCC1B1
+//    // 1 là nhìn thấy, 0 là không nhìn thấy
+//    public int [][] projection_right_to_left(){
+//    	// Code here
+//    	int m = (int) Math.round(this.room.getLength());
+//    	int n = (int) Math.round(this.room.getHeight());
+//
+//		int [][] projection =  new int[m + 1][n + 1];
+//		
+//		for (int i = 0; i < m; i ++)
+//    	{
+//    		for (int j = 0; j < n; j++)
+//    		{
+//    			Point point = new Point((double)(this.room.getWidth()),(double) i,(double) j); // <--
+//    			if (is_point_visible(point))
+//    				projection[i][j] = 1;
+//    			else 
+//    				projection[i][j] = 0;
+//    				
+//    		}
+//    	}
+//		
+//		return projection;
+//    }
+//    
+// 
+//    // tính hình chiếu từ trên xuống dưới A1B1C1D1
+//    // 1 là nhìn thấy, 0 là không nhìn thấy
+//    public int [][] projection_top_to_bottom(){
+//    	// Code here
+//    	int m = (int) Math.round(this.room.getLength());
+//    	int n = (int) Math.round(this.room.getWidth());
+//
+//		int [][] projection =  new int[m][n];
+//		
+//		for (int i = 0; i < m; i ++)
+//    	{
+//    		for (int j = 0; j < n; j++)
+//    		{
+//    			Point point = new Point((double) i, (double) j, this.room.getHeight());
+//    			if (is_point_visible(point))
+//    				projection[i][j] = 1;
+//    			else 
+//    				projection[i][j] = 0;
+//    				
+//    		}
+//    	}
+//		
+//
+//		return projection;
+//
+//    }
+// 
+//    // tính hình chiếu từ dưới lên trên ABCD
+//    // 1 là nhìn thấy, 0 là không nhìn thấy
+//    public int [][] projection_bottom_to_top(){
+//    	// Code here
+//    	int m = (int) Math.round(this.room.getLength());
+//    	int n = (int) Math.round(this.room.getWidth());
+//
+//		int [][] projection =  new int[m][n];
+//		
+//		for (int i = 0; i < m; i ++)
+//    	{
+//    		for (int j = 0; j < n; j++)
+//    		{
+//    			Point point = new Point((double) i, (double) j, 0.0);
+//    			if (is_point_visible(point))
+//    				projection[i][j] = 1;
+//    			else 
+//    				projection[i][j] = 0;
+//    				
+//    		}
+//    	}
+//		
+//
+//		return projection;
+//    }
+// 
+//    // tính hình chiếu từ trước về sau CDD1C1
+//    // 1 là nhìn thấy, 0 là không nhìn thấy
+//    public int [][] projection_front_to_back(){
+//    	// Code here
+//    	int m = (int) Math.round(this.room.getWidth());
+//    	int n = (int) Math.round(this.room.getHeight());
+//
+//		int [][] projection =  new int[m][n];
+//		
+//		for (int i = 0; i < m; i ++)
+//    	{
+//    		for (int j = 0; j < n; j++)
+//    		{
+//    			Point point = new Point((double)i, 0.0, (double) j);
+//    			if (is_point_visible(point))
+//    				projection[i][j] = 1;
+//    			else 
+//    				projection[i][j] = 0;
+//    				
+//    		}
+//    	}
+//		
+//
+//		return projection;
+//    }
+//    // tính hình chiếu từ sau ra trưóc ABB1A1
+//    // 1 là nhìn thấy, 0 là không nhìn thấy
+//    public int [][] projection_back_to_front(){
+//    	// Code here
+//    	
+//    	int m = (int) Math.round(this.room.getWidth());
+//    	int n = (int) Math.round(this.room.getHeight());
+//
+//		int [][] projection =  new int[m][n];
+//		
+//		for (int i = 0; i < m; i ++)
+//    	{
+//    		for (int j = 0; j < n; j++)
+//    		{
+//    			Point point = new Point((double) i, this.room.getLength(), (double) j);
+//    			if (is_point_visible(point))
+//    				projection[i][j] = 1;
+//    			else 
+//    				projection[i][j] = 0;
+//    				
+//    		}
+//    	}
+//		
+//
+//		return projection;
+		
+    
     
     
     

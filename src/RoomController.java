@@ -1,9 +1,7 @@
 
 import java.io.FileNotFoundException;
 
-
-
-import model.RoomModel;
+import controller.RoomModel;
 import view.*;
 public class RoomController {
 	

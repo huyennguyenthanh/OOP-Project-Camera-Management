@@ -4,7 +4,7 @@ package view;
 import java.awt.event.*;
 import javax.swing.*;
 
-import model.RoomModel;
+import controller.RoomModel;
 public class ShowRoomProjection {
 	public ShowRoomProjection(RoomModel roomModel) {
 		JFrame frame = new JFrame("Show View");
